@@ -1,0 +1,33 @@
+﻿<Window x:Class="server.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:server"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        Title="Resistenza" Height="1080" Width="1920"
+        AllowsTransparency="True"
+        Loaded="Window_Loaded"
+        MouseDown="Window_MouseDown">
+
+    <Canvas Name ="Padding" Background="#331462" >
+
+        <StackPanel>
+            <Canvas Name="Titlebar" Background="#FF202020" Width="1920" Height="108"  Margin="2,2,2,0" MouseDown="Titlebar_MouseLeftButtonDown">
+                <TextBox Name = "Title" TextWrapping="NoWrap" Text="Resistenza FT" IsReadOnly="True" Width="371" Canvas.Left="40" Canvas.Top="14" Background="#FF202020" Foreground="WhiteSmoke" FontFamily="Segoe UI Semibold" FontWeight="Bold" FontSize="58" VerticalAlignment="Center" BorderThickness="0" IsHitTestVisible="False"/>
+                <Image Name="ExitIcon" Source = "/assets/icons/exit_main.png" MouseLeftButtonDown="ExitIcon_MouseLeftDown"></Image>
+                <Image Name="SettingsIcon" Source = "/assets/icons/settings.png"></Image>
+
+            </Canvas>
+            <Canvas Name="MainCanva" Background="#2B2A33" Width="1920" Height="970" Margin="2,0,2,2"/>
+
+        </StackPanel>
+
+
+    </Canvas>
+
+
+
+
+</Window>
