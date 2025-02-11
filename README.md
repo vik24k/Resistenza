@@ -76,8 +76,8 @@ Please make sure to follow the coding conventions and include unit tests for any
 
 If you have any questions or suggestions, feel free to open an issue on this repository or contact the project maintainer:
 
-- **Author**: [Aguti Vittorio](https://github.com/yourusername)
-- **Email**: [vittorio.aguti@mail.polimi.it](mailto:youremail@example.com)
+- **Author**: [Aguti Vittorio](https://github.com/vik24k)
+- **Email**: [vittorio.aguti@mail.polimi.it](mailto:vittorio.aguti@mail.polimi.it)
 
 ---
 

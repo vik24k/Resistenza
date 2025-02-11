@@ -12,18 +12,24 @@
   <ItemGroup>
     <None Remove="assets\icons\danger.png" />
     <None Remove="assets\icons\exit_main.png" />
+    <None Remove="assets\icons\left_arrow.png" />
+    <None Remove="assets\icons\resistenza_purple_logo.png" />
     <None Remove="assets\icons\settings.png" />
     <None Remove="assets\icons\settings_ios.png" />
+    <None Remove="resistenza_purple_logo.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="assets\logos\resistenza_purple_logo.ico" />
+    <Resource Include="assets\icons\resistenza_purple_logo.png" />
+    <Resource Include="assets\logos\resistenza_purple_logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="assets\icons\danger.png" />
     <Resource Include="assets\icons\exit_main.png" />
+    <Resource Include="assets\icons\left_arrow.png" />
     <Resource Include="assets\icons\settings.png" />
+    <Resource Include="resistenza_purple_logo.png" />
   </ItemGroup>
 
 </Project>

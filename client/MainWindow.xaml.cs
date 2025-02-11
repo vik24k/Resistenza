@@ -37,11 +37,14 @@ namespace server
 
             //Constructing attributes
 
+            FileTransferUC = new MainFileTransfer();
+            SettingsUC = new ClientSettings();
             Socket = new Connection();
 
+            SettingsUC.SettingsClosed += SetContentToFileTansfer;
+
             ExitWindow = null;
-            
-         
+                   
         }
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -55,7 +58,11 @@ namespace server
         /*BEGINNING OF ACTUAL CLASS ATTRIBUTES*/
 
         readonly Connection Socket;
+        readonly MainFileTransfer FileTransferUC;
+        readonly ClientSettings SettingsUC;
+
         ExitConfermation? ExitWindow;
+        
 
 
         /* BEGINNING OF ACTUAL CLASS METHODS */ 
@@ -71,7 +78,7 @@ namespace server
             Canvas.SetTop(SettingsIcon, (Titlebar.ActualHeight - ExitIcon.ActualHeight) / 2);
             Canvas.SetRight(SettingsIcon, 60);
 
-            //ExitIcon.UpdateLayout();
+            SetContentToFileTansfer();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -86,6 +93,13 @@ namespace server
                 WindowsUtils.CenterWindow(this, ExitWindow);
                 e.Handled = true;
             }
+        }
+
+        private void SetContentToFileTansfer()
+        {
+            MainWindowUserControl.Content = FileTransferUC;
+            MainWindowUserControl.Height = MainCanva.Height;
+            MainWindowUserControl.Width = MainCanva.Width;
         }
 
         private void TerminateMainForm()
@@ -126,6 +140,14 @@ namespace server
             }
         }
 
+        private void SettingsIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         
+        {
+            MainWindowUserControl.Content = SettingsUC;
+            MainWindowUserControl.Height = MainCanva.Height;
+            MainWindowUserControl.Width = MainCanva.Width;
+
+
+        }
     }
 }
