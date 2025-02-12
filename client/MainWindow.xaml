@@ -18,6 +18,7 @@
                 <TextBox Name = "Title" TextWrapping="NoWrap" Text="Resistenza FT" IsReadOnly="True" Width="371" Canvas.Left="40" Canvas.Top="14" Background="Transparent" Foreground="WhiteSmoke" FontFamily="Segoe UI Semibold" FontWeight="Bold" FontSize="58" VerticalAlignment="Center" BorderThickness="0" IsHitTestVisible="False"/>
                 <Image Name="ExitIcon" Source = "/assets/icons/exit_main.png" MouseLeftButtonDown="ExitIcon_MouseLeftDown"></Image>
                 <Image Name="SettingsIcon" Source = "/assets/icons/settings.png" MouseLeftButtonDown="SettingsIcon_MouseLeftButtonDown"></Image>
+                <Image x:Name="ConnectIcon" Source = "/assets/icons/connect.png" />
 
             </Canvas>
 

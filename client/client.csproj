@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\icons\connect.png" />
     <None Remove="assets\icons\danger.png" />
     <None Remove="assets\icons\exit_main.png" />
     <None Remove="assets\icons\left_arrow.png" />
@@ -20,6 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\common\common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\icons\connect.png" />
     <Resource Include="assets\icons\resistenza_purple_logo.png" />
     <Resource Include="assets\logos\resistenza_purple_logo.ico" />
   </ItemGroup>

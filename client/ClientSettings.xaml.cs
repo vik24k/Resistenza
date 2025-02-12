@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
+using common;
+
 namespace client
 {
     /// <summary>
@@ -46,6 +48,44 @@ namespace client
             PositionLogo();
 
             PositionFirstSeparator();
+
+            PositionLoggingAndSubtitle();
+
+            PositionLoggingElements();
+
+            PositionVersionLabel();
+
+            
+        }
+
+        private void PositionLoggingElements()
+        {
+            Canvas.SetTop(LoggingCheckbox, Canvas.GetTop(LoggingLabel) + (LoggingLabel.ActualHeight - LoggingCheckbox.ActualHeight) / 2);
+            Canvas.SetLeft(LoggingCheckbox, Canvas.GetLeft(LoggingLabel) + 300);
+
+        }
+
+        private void PositionVersionLabel()
+        {
+
+            BuildVersionLabel.Content = "v " + GeneralSettings.Version;
+
+            Dispatcher.InvokeAsync(() =>
+            {
+                Canvas.SetLeft(BuildVersionLabel, this.ActualWidth - BuildVersionLabel.ActualWidth - 5);
+                Canvas.SetBottom(BuildVersionLabel, 0);
+            }, System.Windows.Threading.DispatcherPriority.Render);
+
+
+        }
+
+        private void PositionLoggingAndSubtitle()
+        {
+            Canvas.SetTop(LoggingLabel, Canvas.GetTop(FirstSeparator) + 20);
+            Canvas.SetLeft(LoggingLabel, Canvas.GetLeft(ServerTitle));
+
+            Canvas.SetTop(LoggingCotitle, Canvas.GetTop(LoggingLabel) + 30);
+            Canvas.SetLeft(LoggingCotitle, Canvas.GetLeft(LoggingLabel));
         }
 
         private void PositionFirstSeparator()
@@ -116,5 +156,8 @@ namespace client
         {
             SettingsClosed?.Invoke();
         }
+
+        
+        
     }
 }

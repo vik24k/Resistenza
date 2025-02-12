@@ -11,7 +11,7 @@
              Loaded="UserControl_Loaded"
              MouseLeftButtonDown="UserControl_MouseLeftButtonDown">
 
-    <Canvas>
+    <Canvas Name="MainCanva">
 
         <!-- Icona di uscita -->
         <Image Name="ExitSettingsIcon" 
@@ -45,7 +45,7 @@
                  Width="181" 
                  Canvas.Left="41" Canvas.Top="89" 
                  Background="Transparent" 
-                 Foreground="#D2D2D5" 
+                 Foreground="#A9A9A9" 
                  FontFamily="Segoe UI"  
                  FontSize="15" 
                  BorderThickness="0" 
@@ -56,9 +56,9 @@
         <!-- Etichetta per l'indirizzo IP remoto -->
         <Label Name="RemoteIpLabel" 
                Content="Address:" 
-               Foreground="#D2D2D5" 
+               Foreground="#A9A9A9" 
                Canvas.Left="324" 
-               FontSize="15" 
+               FontSize="13" 
                Canvas.Top="58"/>
 
         <!-- TextBox per l'IP remoto -->
@@ -92,7 +92,7 @@
                                 <Border Name="Border"
                                         CornerRadius="5"
                                         Background="{TemplateBinding Background}"
-                                        BorderBrush="#484848"
+                                        BorderBrush="#5F5F5F"
                                         BorderThickness="{TemplateBinding BorderThickness}">
                                     <ScrollViewer Margin="0"
                                                   x:Name="PART_ContentHost"/>
@@ -114,9 +114,9 @@
         <!-- Etichetta per la porta -->
         <Label x:Name="RemotePortLabel" 
             Content="Port:" 
-            Foreground="#D2D2D5" 
+            Foreground="#A9A9A9" 
             Canvas.Left="521" 
-            FontSize="15" 
+            FontSize="13" 
             Canvas.Top="58" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
         <!-- TextBox per la porta -->
@@ -150,7 +150,7 @@
                                 <Border x:Name="Border"
                                         CornerRadius="5"
                                         Background="{TemplateBinding Background}"
-                                        BorderBrush="#484848"
+                                        BorderBrush="#5F5F5F"
                                         BorderThickness="{TemplateBinding BorderThickness}">
                                     <ScrollViewer Margin="0"
                                                   x:Name="PART_ContentHost"/>
@@ -172,9 +172,9 @@
         <!-- Etichetta per il nome utente -->
         <Label x:Name="RemoteUsernameLabel" 
             Content="Username:" 
-            Foreground="#D2D2D5" 
+            Foreground="#A9A9A9" 
             Canvas.Left="324" 
-            FontSize="15" 
+            FontSize="13" 
             Canvas.Top="136" 
             HorizontalAlignment="Center" 
             VerticalAlignment="Top"/>
@@ -210,7 +210,7 @@
                                 <Border x:Name="Border"
                                         CornerRadius="5"
                                         Background="{TemplateBinding Background}"
-                                        BorderBrush="#484848"
+                                        BorderBrush="#5F5F5F"
                                         BorderThickness="{TemplateBinding BorderThickness}">
                                     <ScrollViewer Margin="0"
                                                   x:Name="PART_ContentHost"/>
@@ -232,9 +232,9 @@
         <!-- Etichetta per la password -->
         <Label x:Name="RemotePasswdLabel" 
             Content="Password:" 
-            Foreground="#D2D2D5" 
+            Foreground="#A9A9A9" 
             Canvas.Left="521" 
-            FontSize="15" 
+            FontSize="13" 
             Canvas.Top="136" 
             HorizontalAlignment="Left" 
             VerticalAlignment="Top"/>
@@ -270,7 +270,7 @@
                                 <Border x:Name="Border"
                                         CornerRadius="5"
                                         Background="{TemplateBinding Background}"
-                                        BorderBrush="#484848"
+                                        BorderBrush="#5F5F5F"
                                         BorderThickness="{TemplateBinding BorderThickness}">
                                     <ScrollViewer Margin="0"
                                                   x:Name="PART_ContentHost"/>
@@ -289,8 +289,71 @@
 
         </TextBox>
 
-        <Image Name="Logo" Source="/assets/icons/resistenza_purple_logo.png" Height="253" Width="334" Canvas.Left="442" Canvas.Top="-9" />
+        <Image Name="Logo" Source="/assets/icons/resistenza_purple_logo.png" Height="253" Width="334" Canvas.Left="404" Canvas.Top="36" />
         <Line Name="FirstSeparator" Stroke="#3D3D3D" StrokeThickness="0.6" Canvas.Top="150" />
+        <TextBox x:Name="LoggingCotitle" 
+            TextWrapping="NoWrap" 
+            Text="Enable or disable logging" 
+            IsReadOnly="True" 
+            Width="181" 
+            Canvas.Left="41" Canvas.Top="205" 
+            Background="Transparent" 
+            Foreground="#A9A9A9" 
+            FontFamily="Segoe UI"  
+            FontSize="15" 
+            BorderThickness="0" 
+            IsHitTestVisible="False" 
+                 HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <TextBox x:Name="LoggingLabel" 
+            TextWrapping="NoWrap" 
+            Text="Logging" 
+            IsReadOnly="True" 
+            Width="148" 
+            Canvas.Left="41" Canvas.Top="176" 
+            Background="Transparent" 
+            Foreground="WhiteSmoke" 
+            FontFamily="Segoe UI SemiBold" 
+            FontWeight="SemiBold" 
+            FontSize="22" 
+            BorderThickness="0" 
+            IsHitTestVisible="False" 
+                 HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label x:Name="BuildVersionLabel" 
+            Content="" 
+            Foreground="Gray"
+            
+            FontSize="11" 
+            />
+
+        <CheckBox Name="LoggingCheckbox" Content="Enable Logging" Foreground="#A9A9A9" FontSize="13" Canvas.Left="100" Canvas.Top="100">
+            <CheckBox.Style>
+                <Style TargetType="CheckBox">
+                    <Setter Property="Background" Value="#8A2BE2"/>
+                    <!-- Colore viola di base -->
+                    <Setter Property="BorderBrush" Value="#6A3A99"/>
+                    <!-- Colore del bordo -->
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Style.Triggers>
+                        <!-- Trigger quando il mouse è sopra la CheckBox -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#8A2BE2"/>
+                            <!-- Mantiene lo stesso colore viola -->
+                        </Trigger>
+                        <!-- Trigger quando la CheckBox è selezionata -->
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="#8A2BE2"/>
+                            <!-- Mantiene lo stesso colore viola -->
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </CheckBox.Style>
+        </CheckBox>
+
+
+
+
+
+
 
 
     </Canvas>

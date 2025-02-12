@@ -34,6 +34,7 @@ namespace server
 
             ExitIcon.Height = 25;
             SettingsIcon.Height = 25;
+            ConnectIcon.Height = 25;
 
             //Constructing attributes
 
@@ -75,8 +76,11 @@ namespace server
             Canvas.SetTop(ExitIcon, (Titlebar.ActualHeight - ExitIcon.ActualHeight) / 2);
             Canvas.SetRight(ExitIcon, 20);
 
-            Canvas.SetTop(SettingsIcon, (Titlebar.ActualHeight - ExitIcon.ActualHeight) / 2);
+            Canvas.SetTop(SettingsIcon, Canvas.GetTop(ExitIcon));
             Canvas.SetRight(SettingsIcon, 60);
+
+            Canvas.SetTop(ConnectIcon, Canvas.GetTop(ExitIcon));
+            Canvas.SetRight(ConnectIcon, 100);
 
             SetContentToFileTansfer();
         }

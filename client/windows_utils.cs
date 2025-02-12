@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace client
 {
@@ -18,8 +19,13 @@ namespace client
 
             Child.Left = parentLeft + (parentWidth - Child.Width) / 2;
             Child.Top = parentTop + (parentHeight - Child.Height) / 2;
-
-
         }
+
+        public static void CenterControl(Control Parent, Control Child)
+        {
+            Canvas.SetLeft(Child, Canvas.GetLeft(Parent) + (Parent.Width - Child.Width) / 2);
+            Canvas.SetTop(Child, Canvas.GetTop(Parent) + (Parent.Height - Child.Height) / 2);
+        }
+
     }
 }
