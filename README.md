@@ -13,6 +13,10 @@
 - **Packet-Based Protocol:** Custom serialization and deserialization of packets for flexible communication.
 - **Remote File & Command Operations:** Supports remote file access and execution of commands on connected clients.
 
+![Alt text](/Preview/server_main.png)
+
+https://github.com/user-attachments/assets/4fb15aec-0356-4c4d-8996-2176795e68e6
+
 ---
 
 ## Project Structure
