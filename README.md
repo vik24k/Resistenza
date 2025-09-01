@@ -6,7 +6,7 @@
 
 ## Features
 
-- **Secure TLS Communication:** All client-server data is encrypted using TLS.
+- **Secure TLS Communication:** All client-server data is encrypted using TLS 1.2.
 - **Modern GUI:** Server application built with WinForms for a responsive management interface.
 - **High Performance:** Lightweight design ensures fast operations with minimal overhead.
 - **Client Authentication:** Server validates incoming clients before accepting connections.
@@ -27,7 +27,7 @@
 
 - **.NET 7 SDK**  
 - **Visual Studio 2022** or newer  
-- Windows 10 / 11 (or newer)
+- Windows 7 (or newer)
 
 ---
 
@@ -58,7 +58,7 @@ This project is for educational purposes only. Unauthorized deployment may viola
 ## Contact
 
 For questions or support, contact the author:  
-**Email:** your-email@example.com
+**Email:** vittorio.aguti@mail.polimi.it
 
 ---
 
