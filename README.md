@@ -15,7 +15,8 @@
 
 ![Alt text](/Preview/server_main.png)
 
-https://github.com/user-attachments/assets/4fb15aec-0356-4c4d-8996-2176795e68e6
+https://github.com/user-attachments/assets/a1eda0c5-4bff-4b93-9726-760300d2e36c
+
 
 ---
 
