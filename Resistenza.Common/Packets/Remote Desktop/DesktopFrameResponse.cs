@@ -12,9 +12,10 @@ namespace Resistenza.Common.Packets.Remote_Desktop
 
         public string Type { get; set; }
         public byte[] ScreenCapture { get; set; }
-        public int CursorLocationX { get; set; }
-        public int CursorLocationY { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
+        public int Pitch { get; set; }
 
         public DesktopFrameResponse()
         {

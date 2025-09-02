@@ -154,10 +154,7 @@ namespace Resistenza.Server.Networking
             IsRunning = true;
             LogEvent.Write(LogEvent.CreateLogString(LogEvent.LogLevel.Info, $"Server started successfully, running on port {ServerSettings.ListeningPort}"));
             await AcceptClientsAsync();
-                
-            
-            
-
+               
         }
 
         public async Task StopServerAsync()

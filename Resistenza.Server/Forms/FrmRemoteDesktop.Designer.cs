@@ -44,56 +44,56 @@
             RecordingPathTextbox.BackColor = Color.FromArgb(32, 34, 46);
             RecordingPathTextbox.BorderStyle = BorderStyle.FixedSingle;
             RecordingPathTextbox.ForeColor = Color.White;
-            RecordingPathTextbox.Location = new Point(181, 86);
-            RecordingPathTextbox.Margin = new Padding(3, 4, 3, 4);
+            RecordingPathTextbox.Location = new Point(158, 64);
             RecordingPathTextbox.Name = "RecordingPathTextbox";
-            RecordingPathTextbox.Size = new Size(241, 27);
+            RecordingPathTextbox.Size = new Size(211, 23);
             RecordingPathTextbox.TabIndex = 22;
             // 
             // PathLabel
             // 
             PathLabel.AutoSize = true;
             PathLabel.ForeColor = Color.White;
-            PathLabel.Location = new Point(30, 88);
+            PathLabel.Location = new Point(26, 66);
             PathLabel.Name = "PathLabel";
-            PathLabel.Size = new Size(145, 20);
+            PathLabel.Size = new Size(117, 15);
             PathLabel.TabIndex = 21;
             PathLabel.Text = "Recordings File Path:";
             // 
             // DesktopPictureBox
             // 
             DesktopPictureBox.BackColor = Color.Black;
-            DesktopPictureBox.Location = new Point(189, 160);
-            DesktopPictureBox.Margin = new Padding(3, 4, 3, 4);
+            DesktopPictureBox.Location = new Point(165, 120);
             DesktopPictureBox.Name = "DesktopPictureBox";
-            DesktopPictureBox.Size = new Size(914, 511);
+            DesktopPictureBox.Size = new Size(800, 383);
             DesktopPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             DesktopPictureBox.TabIndex = 20;
             DesktopPictureBox.TabStop = false;
+            DesktopPictureBox.LoadCompleted += DesktopPictureBox_LoadCompleted;
+            DesktopPictureBox.Click += DesktopPictureBox_Click;
             DesktopPictureBox.MouseEnter += DesktopPictureBox_MouseEnter;
             DesktopPictureBox.MouseLeave += DesktopPictureBox_MouseLeave;
             // 
             // DisplaysBox
             // 
+            DisplaysBox.AccessibleName = "MonitorBox";
             DisplaysBox.BackColor = Color.FromArgb(17, 17, 25);
             DisplaysBox.DropDownStyle = ComboBoxStyle.DropDownList;
             DisplaysBox.FlatStyle = FlatStyle.System;
             DisplaysBox.ForeColor = Color.White;
             DisplaysBox.FormattingEnabled = true;
-            DisplaysBox.Location = new Point(183, 39);
-            DisplaysBox.Margin = new Padding(3, 4, 3, 4);
+            DisplaysBox.Location = new Point(160, 29);
             DisplaysBox.MaxDropDownItems = 50;
             DisplaysBox.Name = "DisplaysBox";
-            DisplaysBox.Size = new Size(241, 28);
+            DisplaysBox.Size = new Size(211, 23);
             DisplaysBox.TabIndex = 19;
             // 
             // AvailableCamsLabel
             // 
             AvailableCamsLabel.AutoSize = true;
             AvailableCamsLabel.ForeColor = Color.White;
-            AvailableCamsLabel.Location = new Point(42, 42);
+            AvailableCamsLabel.Location = new Point(37, 32);
             AvailableCamsLabel.Name = "AvailableCamsLabel";
-            AvailableCamsLabel.Size = new Size(133, 20);
+            AvailableCamsLabel.Size = new Size(104, 15);
             AvailableCamsLabel.TabIndex = 18;
             AvailableCamsLabel.Text = "Available Displays:";
             // 
@@ -109,10 +109,9 @@
             StartWatchingButton.BorderRadius = 50;
             StartWatchingButton.BorderWidth = 1.75F;
             StartWatchingButton.ForeColor = Color.White;
-            StartWatchingButton.Location = new Point(433, 710);
-            StartWatchingButton.Margin = new Padding(3, 4, 3, 4);
+            StartWatchingButton.Location = new Point(379, 532);
             StartWatchingButton.Name = "StartWatchingButton";
-            StartWatchingButton.Size = new Size(423, 69);
+            StartWatchingButton.Size = new Size(370, 52);
             StartWatchingButton.TabIndex = 23;
             StartWatchingButton.Text = "Start Watching Live";
             StartWatchingButton.UseVisualStyleBackColor = false;
@@ -130,10 +129,9 @@
             InteractionModeBtn.BorderRadius = 50;
             InteractionModeBtn.BorderWidth = 1.75F;
             InteractionModeBtn.ForeColor = Color.White;
-            InteractionModeBtn.Location = new Point(862, 710);
-            InteractionModeBtn.Margin = new Padding(3, 4, 3, 4);
+            InteractionModeBtn.Location = new Point(754, 532);
             InteractionModeBtn.Name = "InteractionModeBtn";
-            InteractionModeBtn.Size = new Size(423, 69);
+            InteractionModeBtn.Size = new Size(370, 52);
             InteractionModeBtn.TabIndex = 24;
             InteractionModeBtn.Text = "Interaction Mode: Off";
             InteractionModeBtn.UseVisualStyleBackColor = false;
@@ -144,19 +142,19 @@
             // 
             FrameRateLabel.AutoSize = true;
             FrameRateLabel.ForeColor = Color.White;
-            FrameRateLabel.Location = new Point(1169, 804);
+            FrameRateLabel.Location = new Point(1023, 603);
             FrameRateLabel.Name = "FrameRateLabel";
-            FrameRateLabel.Size = new Size(35, 20);
+            FrameRateLabel.Size = new Size(29, 15);
             FrameRateLabel.TabIndex = 25;
             FrameRateLabel.Text = "FPS:";
             FrameRateLabel.Visible = false;
             // 
             // FrmRemoteDesktop
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(17, 17, 25);
-            ClientSize = new Size(1239, 833);
+            ClientSize = new Size(1084, 625);
             Controls.Add(FrameRateLabel);
             Controls.Add(InteractionModeBtn);
             Controls.Add(StartWatchingButton);
@@ -166,6 +164,7 @@
             Controls.Add(DisplaysBox);
             Controls.Add(AvailableCamsLabel);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FrmRemoteDesktop";
             Text = "FrmRemoteDesktop";
             Load += FrmRemoteDesktop_Load;

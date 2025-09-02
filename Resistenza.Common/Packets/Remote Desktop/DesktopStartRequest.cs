@@ -15,9 +15,6 @@ namespace Resistenza.Common.Packets.Remote_Desktop
         public bool ListDevices { get; set; }
         public bool StartTransmit { get; set; }
         public string NameTargetDisplay { get; set; }
-
-
-
         public DesktopStartRequest()
         {
             Type = this.GetType().ToString();
@@ -27,30 +24,44 @@ namespace Resistenza.Common.Packets.Remote_Desktop
         {
             if (ListDevices)
             {
-                List<MonitorDeviceInfo> Devices = DesktopBroadcast.GetDevicesInfo();
-
+              
                 var DevicesPacket = new DesktopListDisplaysResponse();
-                DevicesPacket.Devices = Devices;
+                DevicesPacket.Devices = DesktopBroadcast.GetDevicesInfo();
+                await ServerStream.SendPacketAsync(DevicesPacket); //ricevuto
 
-                await Lock.WaitAsync();
-                bool Res = await ServerStream.SendPacketAsync(DevicesPacket);
-                Lock.Release();
 
                 return;
             }
 
             if (StartTransmit)
             {
-                DesktopBroadcast Streamer = new DesktopBroadcast(ServerStream, Lock);
+
+                
                 try
                 {
+                    //provo a reinviare lo stesso pacchetto per vedere se il server lo riceve
+                    var DevicesPacket = new DesktopListDisplaysResponse();
+                    DevicesPacket.Devices = DesktopBroadcast.GetDevicesInfo();
+                    await ServerStream.SendPacketAsync(DevicesPacket);
+
+
+                    Console.WriteLine("[DEBUG] Creating DesktopBroadcast");
+                    DesktopBroadcast Streamer = new DesktopBroadcast(ServerStream);
+                    Console.WriteLine("[DEBUG] DesktopBroadcast created");
 
                     await Streamer.StartStreaming(NameTargetDisplay, CancelOperation);
-                    
+
+                    //await Streamer.StartStreaming(NameTargetDisplay, CancelOperation);
+
                 }
-                catch (OperationCanceledException)
+                catch (Exception ex)
                 {
-                    CancelOperation.Token.ThrowIfCancellationRequested();
+                    if(ex is OperationCanceledException)
+                    {
+                        CancelOperation.Token.ThrowIfCancellationRequested();
+                    }
+                    throw;
+                    
                 }
 
 

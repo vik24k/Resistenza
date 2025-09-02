@@ -1,0 +1,7 @@
+﻿  Duplicator.cpp
+C:\Users\24\Desktop\Resistenza\NativeDesktopDuplication\Duplicator.cpp(16,5): warning C4273: 'InitializeDuplicator': inconsistent dll linkage
+C:\Users\24\Desktop\Resistenza\NativeDesktopDuplication\Duplicator.cpp(66,5): warning C4273: 'GetFrame': inconsistent dll linkage
+C:\Users\24\Desktop\Resistenza\NativeDesktopDuplication\Duplicator.cpp(112,6): warning C4273: 'ReleaseFrame': inconsistent dll linkage
+C:\Users\24\Desktop\Resistenza\NativeDesktopDuplication\Duplicator.cpp(122,6): warning C4273: 'Shutdown': inconsistent dll linkage
+     Creating library C:\Users\24\Desktop\Resistenza\x64\Debug\NativeDesktopDuplication.lib and object C:\Users\24\Desktop\Resistenza\x64\Debug\NativeDesktopDuplication.exp
+  NativeDesktopDuplication.vcxproj -> C:\Users\24\Desktop\Resistenza\x64\Debug\NativeDesktopDuplication.dll

@@ -93,7 +93,7 @@ namespace Resistenza.Common.Networking
         }
 
         // INVIO PACCHETTO CON TIMEOUT
-        public async Task<bool> SendPacketAsync(object pkt, int timeoutMs = 2500)
+        public async Task<bool> SendPacketAsync2(object pkt, int timeoutMs = 2500)
         {
             byte[] rawBuffer = PacketSerializer.Serialize(pkt);
             long packetSize = rawBuffer.Length;
@@ -103,7 +103,7 @@ namespace Resistenza.Common.Networking
             var writeDataTask = this.WriteAsync(rawBuffer).AsTask();
             var timeoutTask = Task.Delay(timeoutMs);
 
-            await Task.WhenAny(writeSizeTask, writeDataTask, timeoutTask);
+            var completed = await Task.WhenAny(Task.WhenAll(writeSizeTask, writeDataTask), timeoutTask);
 
             if (timeoutTask.IsCompleted)
             {
@@ -113,6 +113,48 @@ namespace Resistenza.Common.Networking
 
             return true;
         }
+
+        public async Task<bool> SendPacketAsync(object pkt, int timeoutMs = 5000, int chunkSize = 8192)
+        {
+            byte[] rawBuffer = PacketSerializer.Serialize(pkt);
+            long packetSize = rawBuffer.Length;
+            byte[] sizeBuffer = BitConverter.GetBytes(packetSize);
+
+            using var cts = new CancellationTokenSource(timeoutMs);
+
+            try
+            {
+                // Invia prima la dimensione
+                await this.WriteAsync(sizeBuffer, 0, sizeBuffer.Length, cts.Token);
+
+                int offset = 0;
+                while (offset < rawBuffer.Length)
+                {
+                    int toSend = Math.Min(chunkSize, rawBuffer.Length - offset);
+                    await this.WriteAsync(rawBuffer, offset, toSend, cts.Token);
+                    offset += toSend;
+                }
+
+                Console.WriteLine($"[DEBUG] Packet sent successfully: raw={packetSize} bytes");
+                return true;
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine($"[ERROR] SendPacketAsync timed out ({timeoutMs}ms).");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] SendPacketAsync exception: {ex}");
+                return false;
+            }
+        }
+
+
+
+
+
+
 
         // LETTURA PACCHETTO CON CANCELLAZIONE
         public async Task<object?> ReadPacketAsync(CancellationToken cancellation = default)
@@ -127,7 +169,9 @@ namespace Resistenza.Common.Networking
 
                 await this.ReadExactlyAsync(rawPacket, cancellation);
 
-                return PacketSerializer.Deserialize(rawPacket);
+                object? DeserializedPacket = PacketSerializer.Deserialize(rawPacket);
+
+                return DeserializedPacket;
             }
             catch (OperationCanceledException)
             {

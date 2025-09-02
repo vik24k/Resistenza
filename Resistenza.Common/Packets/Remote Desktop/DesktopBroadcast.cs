@@ -16,49 +16,119 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
-using DesktopDuplication;
+using SharpDX;
+using SharpDX.Direct3D11;
+using SharpDX.DXGI;
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using NAudio.Utils;
+using System.IO.Compression;
+
 
 namespace Resistenza.Common.Packets.Remote_Desktop
 {
+
+    class DesktopDuplicator
+    {
+        // DLL nativo
+        private const string DllName = "NativeDesktopDuplication.dll";
+
+        [DllImport(DllName)]
+        public static extern int InitializeDuplicator(int adapterIndex, int outputIndex);
+
+        [DllImport(DllName)]
+        public static extern int GetFrame(out IntPtr data, out int width, out int height, out int pitch);
+
+        [DllImport(DllName)]
+        public static extern void ReleaseFrame();
+
+        [DllImport(DllName)]
+        public static extern void Shutdown();
+
+        // Cursor helper
+        public static class CursorHelper
+        {
+            [StructLayout(LayoutKind.Sequential)]
+            public struct POINT { public int X; public int Y; }
+
+            [StructLayout(LayoutKind.Sequential)]
+            public struct ICONINFO
+            {
+                public bool fIcon;
+                public int xHotspot;
+                public int yHotspot;
+                public IntPtr hbmMask;
+                public IntPtr hbmColor;
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            public struct CURSORINFO
+            {
+                public int cbSize;
+                public int flags;
+                public IntPtr hCursor;
+                public POINT ptScreenPos;
+            }
+
+            [DllImport("user32.dll")]
+            public static extern bool GetCursorInfo(out CURSORINFO pci);
+
+            [DllImport("user32.dll")]
+            public static extern bool GetIconInfo(IntPtr hIcon, out ICONINFO piconinfo);
+
+            [DllImport("gdi32.dll")]
+            public static extern IntPtr CreateCompatibleDC(IntPtr hdc);
+
+            [DllImport("gdi32.dll")]
+            public static extern bool DeleteDC(IntPtr hdc);
+
+            public const int CURSOR_SHOWING = 0x00000001;
+
+            [DllImport("gdi32.dll")]
+            private static extern bool GetBitmapBits(IntPtr hBitmap, int cbBuffer, byte[] lpvBits);
+
+            [StructLayout(LayoutKind.Sequential)]
+            private struct BITMAP
+            {
+                public int bmType;
+                public int bmWidth;
+                public int bmHeight;
+                public int bmWidthBytes;
+                public ushort bmPlanes;
+                public ushort bmBitsPixel;
+                public IntPtr bmBits;
+            }
+
+            [DllImport("gdi32.dll")]
+            private static extern int GetObject(IntPtr hObject, int nSize, out BITMAP lpObject);
+
+    
+
+            // Disegna il cursore direttamente sul buffer ARGB
+            public static void DrawCursor(IntPtr buffer, int width, int height, int pitch)
+            {
+
+            }
+        }
+    }
+
+
     public class DesktopBroadcast
     {
-        public DesktopBroadcast(SecureStream Server, SemaphoreSlim Lock)
+        public DesktopBroadcast(SecureStream Server)
         {
 
-            _ServerStrem = Server;
-            _Lock = Lock;
+            _ServerStream = Server;
+        
         }
 
-        private SecureStream _ServerStrem;
-        private SemaphoreSlim _Lock;
+        private SecureStream _ServerStream;
+  
         private int _Frames;
 
-        [StructLayout(LayoutKind.Sequential)]
-        private struct CURSORINFO
-        {
-            public Int32 cbSize;
-            public Int32 flags;
-            public IntPtr hCursor;
-            public POINTAPI ptScreenPos;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct POINTAPI
-        {
-            public int x;
-            public int y;
-        }
-
-        [DllImport("user32.dll")]
-        private static extern bool GetCursorInfo(out CURSORINFO pci);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern bool DrawIconEx(IntPtr hdc, int xLeft, int yTop, IntPtr hIcon, int cxWidth, int cyHeight, int istepIfAniCur, IntPtr hbrFlickerFreeDraw, int diFlags);
-
-        private const Int32 CURSOR_SHOWING = 0x0001;
-        private const Int32 DI_NORMAL = 0x0003;
-
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         static extern bool EnumDisplayDevices(string lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
 
         [Flags()]
@@ -98,20 +168,6 @@ namespace Resistenza.Common.Packets.Remote_Desktop
             public string DeviceKey;
         }
 
-        [DllImport("DesktopDuplicatorNative.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int InitDesktopDuplicationByName([MarshalAs(UnmanagedType.LPWStr)] string monitorName, out IntPtr ppDeskDupl);
-
-        [DllImport("DesktopDuplicatorNative.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int InitDesktopDuplicationByIndex(int MonitorIndex, out IntPtr ppDeskDupl);
-
-        [DllImport("DesktopDuplicatorNative.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GetFrame(IntPtr pDeskDupl, out IntPtr ppFrame);
-
-        [DllImport("DesktopDuplicatorNative.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ReleaseDesktopDuplciation(IntPtr pDeskDupl);
-
-
-
 
         public static List<MonitorDeviceInfo> GetDevicesInfo()
         {
@@ -147,60 +203,137 @@ namespace Resistenza.Common.Packets.Remote_Desktop
 
 
         }
+
+
         public async Task StartStreaming(string DeviceName, CancellationTokenSourceWithId CancelOperation)
         {
-            Task SendTask = Task.Delay(0);
+
+
+            
+            IntPtr data;
+            int width, height, pitch;
+            int buffer_size;
 
            
-            DesktopDuplicator duplicator = new DesktopDuplicator(0);
-            while (true)
+
+            // Inizializza il duplicatore sul primo monitor/output
+            if (DesktopDuplicator.InitializeDuplicator(0, 0) != 0)
             {
-                if (CancelOperation.IsCancellationRequested && (CancelOperation.IdOfTaskToBeCancelled == TasksIds.STREAM_DESKTOP_TASK_ID || CancelOperation.IdOfTaskToBeCancelled == TasksIds.ALL_ACTIONS))
-                {
-                    duplicator.Stop();
-                    CancelOperation.Token.ThrowIfCancellationRequested();
-                        
-                }
+                Console.WriteLine("[ERROR] InitializeDuplicator failed");
+                return;
+            }
 
-                using (   MemoryStream ms = new MemoryStream())
-                {
-                    DesktopFrame frame = duplicator.GetLatestFrame();
+            try
+            {
 
-                    if (frame == null)
+                Task SendTask = Task.CompletedTask;
+
+                while (true)
+                {
+                    // Controllo cancel
+                    if (CancelOperation.IsCancellationRequested &&
+                        (CancelOperation.IdOfTaskToBeCancelled == TasksIds.STREAM_DESKTOP_TASK_ID ||
+                         CancelOperation.IdOfTaskToBeCancelled == TasksIds.ALL_ACTIONS))
                     {
-                        await Task.Yield(); //restituisce il controllo al chiamante in modo da non creare un ciclo stretto
-                        continue;
+                        DesktopDuplicator.Shutdown();
+                        CancelOperation.Token.ThrowIfCancellationRequested();
                     }
 
-                    frame.DesktopImage.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    
 
-                    await _Lock.WaitAsync();
-                    await SendTask;
-                    _Lock.Release();
-
-                    DesktopFrameResponse frameResponse = new DesktopFrameResponse()
+                    // Ottieni frame
+                    if (DesktopDuplicator.GetFrame(out data, out width, out height, out pitch) == 0)
                     {
-                        ScreenCapture = ms.ToArray(),
-                        CursorLocationX = frame.CursorLocation.X,
-                        CursorLocationY = frame.CursorLocation.Y,   
-                       
+                        // Disegna cursore sul buffer
+                        DesktopDuplicator.CursorHelper.DrawCursor(data, width, height, pitch);
 
-                    };
-                    SendTask = _ServerStrem.SendPacketAsync(frameResponse);
-                    _Frames++;
+                        // Copia il buffer in un array gestito
+                        buffer_size = height * pitch;
+                        byte[] rawBuffer = new byte[buffer_size];
+                        Marshal.Copy(data, rawBuffer, 0, buffer_size);
+
+                        DesktopDuplicator.ReleaseFrame();
+
+                        // Comprimi con GZip
+                        byte[] compressedBuffer;
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            using (GZipStream gzip = new GZipStream(ms, CompressionLevel.Fastest))
+                            {
+                                gzip.Write(rawBuffer, 0, rawBuffer.Length);
+                            }
+                            compressedBuffer = ms.ToArray();
+                        }
+
+                        var response = new DesktopFrameResponse
+                        {
+                            ScreenCapture = compressedBuffer,
+                            Width = width,
+                            Height = height,
+                            Pitch = pitch
+                         
+                        };
+
+                        await SendTask;
+                        SendTask = _ServerStream.SendPacketAsync(response);
+                        
+                    }
+
+                    
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("[INFO] Streaming cancelled");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[ERROR] Exception during streaming: " + ex);
+            }
+            finally
+            {
+                DesktopDuplicator.Shutdown();
+            }
+
+
+        }
+
+        unsafe
+public static void SaveFrameAsJpeg(IntPtr buffer, int width, int height, int pitch, string filePath)
+        {
+            // Crea bitmap vuota con PixelFormat corretto
+            using (Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb))
+            {
+                // Blocca i dati della bitmap
+                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, bmp.PixelFormat);
+                byte* destPtr = (byte*)bmpData.Scan0;
+
+                for (int y = 0; y < height; y++)
+                {
+                    byte* srcRow = (byte*)buffer + y * pitch;
+                    byte* destRow = destPtr + y * bmpData.Stride;
+                    for (int x = 0; x < width; x++)
+                    {
+                        destRow[0] = srcRow[0]; // B
+                        destRow[1] = srcRow[1]; // G
+                        destRow[2] = srcRow[2]; // R
+                        destRow[3] = srcRow[3]; // A
+                        srcRow += 4;
+                        destRow += 4;
+                    }
                 }
 
-                await Task.Yield(); //restituisce il controllo al chiamante in modo da non creare un ciclo stretto
+                bmp.UnlockBits(bmpData);
+
+                // Salva come JPEG
+                bmp.Save(filePath, ImageFormat.Jpeg);
             }
         }
-            
-        
 
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
-        {
-            Console.WriteLine($"Frames: {_Frames}");
-            _Frames = 0;
-        }  
+
+
+
+
     }
 
     public class MonitorDeviceInfo
@@ -212,4 +345,5 @@ namespace Resistenza.Common.Packets.Remote_Desktop
         public bool IsMainMonitor { get; set; }
 
     }
+
 }

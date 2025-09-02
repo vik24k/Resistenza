@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\24\\Desktop\\NativeDesktopDuplication\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F2A9D74B-6088-4F8D-9247-3A528D065919}|NativeDesktopDuplication.vcxproj|C:\\Users\\24\\Desktop\\NativeDesktopDuplication\\Duplicator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F2A9D74B-6088-4F8D-9247-3A528D065919}|NativeDesktopDuplication.vcxproj|solutionrelative:Duplicator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2A9D74B-6088-4F8D-9247-3A528D065919}|NativeDesktopDuplication.vcxproj|C:\\Users\\24\\Desktop\\NativeDesktopDuplication\\Duplicator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F2A9D74B-6088-4F8D-9247-3A528D065919}|NativeDesktopDuplication.vcxproj|solutionrelative:Duplicator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Duplicator.h",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\NativeDesktopDuplication\\Duplicator.h",
+              "RelativeDocumentMoniker": "Duplicator.h",
+              "ToolTip": "C:\\Users\\24\\Desktop\\NativeDesktopDuplication\\Duplicator.h",
+              "RelativeToolTip": "Duplicator.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-09-02T09:01:54.221Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Duplicator.cpp",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\NativeDesktopDuplication\\Duplicator.cpp",
+              "RelativeDocumentMoniker": "Duplicator.cpp",
+              "ToolTip": "C:\\Users\\24\\Desktop\\NativeDesktopDuplication\\Duplicator.cpp",
+              "RelativeToolTip": "Duplicator.cpp",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAAAQAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-02T09:01:05.44Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

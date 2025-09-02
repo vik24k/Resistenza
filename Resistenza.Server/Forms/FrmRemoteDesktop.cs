@@ -25,6 +25,9 @@ using Timer = System.Timers.Timer;
 using System.Runtime.InteropServices;
 using OpenCvSharp;
 using Point = System.Drawing.Point;
+using System.IO.Compression;
+using Org.BouncyCastle.Asn1.Cms;
+using System.Drawing.Imaging;
 
 
 
@@ -64,10 +67,10 @@ namespace Resistenza.Server.Forms
             _MouseHook = IntPtr.Zero;
             _KeyboardHook = IntPtr.Zero;
 
-             _MouseEventHandler = MouseEventCallback;
+            _MouseEventHandler = MouseEventCallback;
 
-        //_DevicesAvailable = new Dictionary<string, MonitorDeviceInfo>();
-    }
+            //_DevicesAvailable = new Dictionary<string, MonitorDeviceInfo>();
+        }
         private HookProc _MouseEventHandler;
         private delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
 
@@ -88,10 +91,6 @@ namespace Resistenza.Server.Forms
 
         private static int WH_MOUSE = 7;
 
-        
-
-        
-
         private IntPtr _MouseHook;
         private IntPtr _KeyboardHook;
 
@@ -109,80 +108,98 @@ namespace Resistenza.Server.Forms
                     return;
 
                 case DesktopListDisplaysResponse:
-
-
-
+                    
+                    DesktopListDisplaysResponse displayPacket = (DesktopListDisplaysResponse)PacketReceived;
                     _DevicesAvailable = new Dictionary<string, MonitorDeviceInfo>();
 
-                    DesktopListDisplaysResponse DisplayListing = (DesktopListDisplaysResponse)PacketReceived;
-                    int i = 1;
+                    Invoke(() =>
+                    {
+                        int loadingIndex = DisplaysBox.Items.IndexOf("Loading...");
+                        if (loadingIndex != -1)
+                            DisplaysBox.Items.RemoveAt(loadingIndex);
+                    });
 
-                    int indexOfLoadingItem = DisplaysBox.Items.IndexOf("Loading...");
-                    if (indexOfLoadingItem != -1)
+                    if (displayPacket.Devices == null || displayPacket.Devices.Count == 0)
                     {
-                        DisplaysBox.Items.RemoveAt(indexOfLoadingItem);
-                    }
-                    if (DisplayListing.Devices.Count == 0)
-                    {
-                        string noCamera = "No Display Available";
-                        int In = DisplaysBox.Items.Add(noCamera);
-                        DisplaysBox.Text = noCamera;
-                        DisplaysBox.SelectedIndex = In;
+                        Invoke(() =>
+                        {
+                            string noDisplay = "No Display Available";
+                            int idx = DisplaysBox.Items.Add(noDisplay);
+                            DisplaysBox.Text = noDisplay;
+                            DisplaysBox.SelectedIndex = idx;
+                        });
                         return;
                     }
-                    foreach (var Device in DisplayListing.Devices)
+
+                    int deviceCounter = 0;
+                    foreach (var device in displayPacket.Devices)
                     {
-                        string Identifier = $"{Device.FriendlyName} ({Device.ScreenWidth}x{Device.ScreenHeight})" + (Device.IsMainMonitor ? " (Main display)" : "");
-                        int Index = DisplaysBox.Items.Add(Identifier);
+                        // Genera chiave unica per il dizionario
+                        string key = $"{device.FriendlyName}_{deviceCounter++}";
 
-                        if (DisplaysBox.Text == string.Empty)
+                        if (!_DevicesAvailable.ContainsKey(key))
+                            _DevicesAvailable.Add(key, device);
+
+                        string identifier = $"{device.FriendlyName} ({device.ScreenWidth}x{device.ScreenHeight})" +
+                                            (device.IsMainMonitor ? " (Main display)" : "");
+
+                        // Aggiorna UI in modo sicuro
+                        Invoke(() =>
                         {
-                            DisplaysBox.Text = Identifier;
-                            DisplaysBox.SelectedIndex = Index;
-                        }
-
-                        _DevicesAvailable.Add(Device.FriendlyName, Device);
-
+                            int idx = DisplaysBox.Items.Add(identifier);
+                            if (string.IsNullOrEmpty(DisplaysBox.Text))
+                            {
+                                DisplaysBox.Text = identifier;
+                                DisplaysBox.SelectedIndex = idx;
+                            }
+                        });
                     }
                     return;
+
                 case DesktopFrameResponse:
 
-                    if (_IsStopRequested)
+                    if (!_IsStopRequested)
                     {
-                        return;
-                    }
-
-                    if (_IsFirstFrame)
-                    {
-                        _IsFirstFrame = false;
-                        _Fps = 0;
-
-                        lock (_fpsCounterLock)
+                        if (_IsFirstFrame)
                         {
-                            _FrameRateTimer = new Timer(1000); //un secondo
-                            _FrameRateTimer.Elapsed += OnFrameRateTimerElasped;
-                            _FrameRateTimer.Start();
+                            _IsFirstFrame = false;
+                            _Fps = 0;
+
+                            lock (_fpsCounterLock)
+                            {
+                                _FrameRateTimer = new Timer(1000); //un secondo
+                                _FrameRateTimer.Elapsed += OnFrameRateTimerElasped;
+                                _FrameRateTimer.Start();
+                            }
+
+                            FrameRateLabel.Visible = true;
                         }
 
-                        FrameRateLabel.Visible = true;
+                        DesktopFrameResponse FramePacket = (DesktopFrameResponse)PacketReceived;
+
+                        using (var input = new MemoryStream(FramePacket.ScreenCapture))
+                        using (var gzip = new GZipStream(input, CompressionMode.Decompress))
+                        using (var output = new MemoryStream())
+                        {
+                            gzip.CopyTo(output);
+
+                            Bitmap bitmapFrame = new Bitmap(FramePacket.Width, FramePacket.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                            var rect = new Rectangle(0,0,FramePacket.Width,FramePacket.Height);
+                            BitmapData bmpData = bitmapFrame.LockBits(rect, ImageLockMode.WriteOnly, bitmapFrame.PixelFormat);
+
+                            Marshal.Copy(output.ToArray(), 0, bmpData.Scan0, FramePacket.Height * FramePacket.Pitch);
+                            bitmapFrame.UnlockBits(bmpData);
+
+                            DesktopPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                            DesktopPictureBox.Image = bitmapFrame;
+                        }
+
+                        
+                        _Fps++;
                     }
 
-                    DesktopFrameResponse FramePacket = (DesktopFrameResponse)PacketReceived;
-                    Bitmap bitmapFrame;
-
-                    using (MemoryStream ms = new MemoryStream(FramePacket.ScreenCapture))
-                    {
-                        bitmapFrame = new Bitmap(ms);
-                    }
-
-                    DesktopPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-
-                    DesktopPictureBox.Image = bitmapFrame;
-                    _Fps++;
-
-
-
-                    return;
+                    return;              
             }
 
         }
@@ -211,8 +228,9 @@ namespace Resistenza.Server.Forms
 
             await _Client.CustomStream.SendPacketAsync(ListRequest);
 
-            StartWatchingButton.Location = new Point((this.Size.Width / 2) - (StartWatchingButton.Size.Width / 2), 700);
-            DesktopPictureBox.Location = new Point((this.Size.Width / 2) - (DesktopPictureBox.Size.Width / 2), DesktopPictureBox.Location.Y);
+
+            //StartWatchingButton.Location = new Point((this.Size.Width - StartWatchingButton.Size.Width / 2), 700);
+            //DesktopPictureBox.Location = new Point((this.Size.Width / 2) - (DesktopPictureBox.Size.Width / 2), DesktopPictureBox.Location.Y);
         }
 
         private async void StartWatchingButton_Click(object sender, EventArgs e)
@@ -220,28 +238,25 @@ namespace Resistenza.Server.Forms
 
             if (!_IsStreamingActive)
             {
-                if (_IsStopRequested)
+                if (!_IsStopRequested)
                 {
-                    return;
+                    StartWatchingButton.Text = "Stop watching";
+                    StartWatchingButton.Location = new Point(150, StartWatchingButton.Location.Y);
+                    InteractionModeBtn.Location = new Point(this.Size.Width - (150 + StartWatchingButton.Size.Width), StartWatchingButton.Location.Y);
+
+                    DesktopStartRequest StartStreamingRequest = new DesktopStartRequest
+                    {
+                        StartTransmit = true,
+                        NameTargetDisplay = DisplaysBox.SelectedText //to fix
+                    };
+
+                    await _Client.CustomStream.SendPacketAsync(StartStreamingRequest);
+
+                    InteractionModeBtn.Visible = true;
+                    _IsStreamingActive = true;
                 }
 
-                StartWatchingButton.Location = new Point(150, StartWatchingButton.Location.Y);
-                InteractionModeBtn.Location = new Point(this.Size.Width - (150 + StartWatchingButton.Size.Width), StartWatchingButton.Location.Y);
-                InteractionModeBtn.Visible = true;
 
-
-                MonitorDeviceInfo AssociatedInfo = GetInfoOfSelectedMonitor();
-                
-
-                DesktopStartRequest StartStreamingRequest = new DesktopStartRequest
-                {
-                    StartTransmit = true,
-                    NameTargetDisplay = AssociatedInfo.Name
-                };
-
-                await _Client.CustomStream.SendPacketAsync(StartStreamingRequest);
-                StartWatchingButton.Text = "Stop watching";
-                _IsStreamingActive = true;
             }
             else
             {
@@ -309,7 +324,7 @@ namespace Resistenza.Server.Forms
                         break;
 
                 }
-                              
+
             }
 
             return IntPtr.Zero;
@@ -363,6 +378,17 @@ namespace Resistenza.Server.Forms
                 UnhookWindowsHookEx(_MouseHook);
                 UnhookWindowsHookEx(_KeyboardHook);
             }
+        }
+
+        private void DesktopPictureBox_LoadCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            DesktopPictureBox.Location = new Point((this.ClientSize.Width - DesktopPictureBox.Width) / 2, DesktopPictureBox.Location.Y);
+
+        }
+
+        private void DesktopPictureBox_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

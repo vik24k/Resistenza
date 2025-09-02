@@ -158,7 +158,8 @@ namespace Resistenza.Client.Networking
 
         private void CustomStream_OnErrorWritingSocket(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("[ERROR] Write socket failed");
+            CustomStream.Disconnect();
         }
 
         private void CustomStream_OnErrorReadingSocket(object? sender, EventArgs e)
