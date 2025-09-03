@@ -1,2 +1,0 @@
-C:\Users\vitto\Desktop\Resistenza\Resistenza.Client\bin\Release\net7.0\win-x64\publish\Resistenza.Client.pdb
-C:\Users\vitto\Desktop\Resistenza\Resistenza.Client\bin\Release\net7.0\win-x64\publish\Resistenza.Client.exe
