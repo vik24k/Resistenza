@@ -13,7 +13,14 @@
 - **Packet-Based Protocol:** Custom serialization and deserialization of packets for flexible communication.
 - **Remote File & Command Operations:** Supports remote file access and execution of commands on connected clients.
 
+![alt text](https://github.com/vik24k/Resistenza/blob/main/Preview/server_main.png)
+
+https://github.com/user-attachments/assets/2d95de6b-c740-4230-8ae0-9f7459f569d5
+
 ---
+
+
+
 
 ## Project Structure
 
