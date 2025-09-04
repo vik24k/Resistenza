@@ -41,6 +41,9 @@
     <Compile Update="Forms\FrmSettings.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\FullScreenDesktop.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\SystemInfoFrm.cs">
       <SubType>Form</SubType>
     </Compile>

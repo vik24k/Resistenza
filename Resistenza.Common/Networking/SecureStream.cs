@@ -118,8 +118,10 @@ namespace Resistenza.Common.Networking
         {
             byte[] rawBuffer = PacketSerializer.Serialize(pkt);
             long packetSize = rawBuffer.Length;
+
             byte[] sizeBuffer = BitConverter.GetBytes(packetSize);
 
+            
             using var cts = new CancellationTokenSource(timeoutMs);
 
             try
@@ -135,7 +137,7 @@ namespace Resistenza.Common.Networking
                     offset += toSend;
                 }
 
-                Console.WriteLine($"[DEBUG] Packet sent successfully: raw={packetSize} bytes");
+                //Console.WriteLine($"[DEBUG] Packet sent successfully: raw={packetSize} bytes");
                 return true;
             }
             catch (OperationCanceledException)

@@ -89,6 +89,9 @@ namespace Resistenza.Common.Packets.Remote_Desktop
             [DllImport("gdi32.dll")]
             private static extern bool GetBitmapBits(IntPtr hBitmap, int cbBuffer, byte[] lpvBits);
 
+            [DllImport("gdi32.dll")]
+            private static extern bool DeleteObject(IntPtr hObject);
+
             [StructLayout(LayoutKind.Sequential)]
             private struct BITMAP
             {
@@ -103,13 +106,87 @@ namespace Resistenza.Common.Packets.Remote_Desktop
 
             [DllImport("gdi32.dll")]
             private static extern int GetObject(IntPtr hObject, int nSize, out BITMAP lpObject);
-
-    
-
             // Disegna il cursore direttamente sul buffer ARGB
+
+            [DllImport("user32.dll", SetLastError = true)]
+            static extern bool DrawIconEx(
+    IntPtr hdc,
+    int xLeft,
+    int yTop,
+    IntPtr hIcon,
+    int cxWidth,
+    int cyHeight,
+    int istepIfAniCur,
+    IntPtr hbrFlickerFreeDraw,
+    int diFlags);
+
+            private const int DI_NORMAL = 0x0003;
+
+            unsafe
             public static void DrawCursor(IntPtr buffer, int width, int height, int pitch)
             {
+                CURSORINFO ci = new CURSORINFO { cbSize = Marshal.SizeOf(typeof(CURSORINFO)) };
+                if (!GetCursorInfo(out ci) || (ci.flags & CURSOR_SHOWING) == 0)
+                    return;
 
+                if (!GetIconInfo(ci.hCursor, out ICONINFO iconInfo))
+                    return;
+
+                try
+                {
+                    // creiamo un bitmap ARGB
+                    using (var cursorBmp = new Bitmap(32, 32, PixelFormat.Format32bppArgb)) // dimensione massima cursore
+                    {
+                        using (Graphics g = Graphics.FromImage(cursorBmp))
+                        {
+                            IntPtr hdc = g.GetHdc();
+                            DrawIconEx(hdc, 0, 0, ci.hCursor, 0, 0, 0, IntPtr.Zero, DI_NORMAL);
+                            g.ReleaseHdc(hdc);
+                        }
+
+                        Rectangle rect = new Rectangle(0, 0, cursorBmp.Width, cursorBmp.Height);
+                        BitmapData bmpData = cursorBmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+                        byte* srcPtr = (byte*)bmpData.Scan0;
+                        int x = ci.ptScreenPos.X - iconInfo.xHotspot;
+                        int y = ci.ptScreenPos.Y - iconInfo.yHotspot;
+
+                        for (int row = 0; row < cursorBmp.Height; row++)
+                        {
+                            int py = y + row;
+                            if (py < 0 || py >= height) continue;
+
+                            for (int col = 0; col < cursorBmp.Width; col++)
+                            {
+                                int px = x + col;
+                                if (px < 0 || px >= width) continue;
+
+                                byte* dest = (byte*)buffer + py * pitch + px * 4;
+
+                                byte b = srcPtr[col * 4 + 0];
+                                byte g = srcPtr[col * 4 + 1];
+                                byte r = srcPtr[col * 4 + 2];
+                                byte a = srcPtr[col * 4 + 3];
+
+                                if (a > 0)
+                                {
+                                    dest[0] = b;
+                                    dest[1] = g;
+                                    dest[2] = r;
+                                    dest[3] = a;
+                                }
+                            }
+                            srcPtr += bmpData.Stride;
+                        }
+
+                        cursorBmp.UnlockBits(bmpData);
+                    }
+                }
+                finally
+                {
+                    if (iconInfo.hbmColor != IntPtr.Zero) DeleteObject(iconInfo.hbmColor);
+                    if (iconInfo.hbmMask != IntPtr.Zero) DeleteObject(iconInfo.hbmMask);
+                }
             }
         }
     }
@@ -171,53 +248,41 @@ namespace Resistenza.Common.Packets.Remote_Desktop
 
         public static List<MonitorDeviceInfo> GetDevicesInfo()
         {
-            List<MonitorDeviceInfo> Monitors = new();
+            List<MonitorDeviceInfo> monitors = new();
 
-            ManagementObjectSearcher searcher =
-                new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_DesktopMonitor");
-
-
-            foreach (Screen ScreenDevice in Screen.AllScreens)
+            foreach (Screen screen in Screen.AllScreens)
             {
-                MonitorDeviceInfo Info = new();
-                Info.ScreenWidth = ScreenDevice.Bounds.Size.Width;
-                Info.ScreenHeight = ScreenDevice.Bounds.Size.Height;
-                Info.IsMainMonitor = ScreenDevice.Primary;
+                MonitorDeviceInfo info = new();
+                info.ScreenWidth = screen.Bounds.Width;
+                info.ScreenHeight = screen.Bounds.Height;
+                info.IsMainMonitor = screen.Primary;
 
-                //a quanto pare prima serve MonitorDeviceInfo.DeviceName per poi, utilizzando la funzione dell'api di windows EnumDisplayDevices(), trovare il friendly name
-
-                DISPLAY_DEVICE d = new DISPLAY_DEVICE();
-                d.cb = Marshal.SizeOf(d);
-                EnumDisplayDevices(ScreenDevice.DeviceName, 0, ref d, 0);
-
-                Info.Name = ScreenDevice.DeviceName;
-                Info.FriendlyName = d.DeviceString;
-
-
-
-
-                Monitors.Add(Info);
+                monitors.Add(info);
+                
             }
+               
 
-            return Monitors;
+            return monitors;
+        }
 
-
+        private static string GetStringFromUShortArray(ushort[] array)
+        {
+            if (array == null) return string.Empty;
+            return new string(array.TakeWhile(c => c != 0).Select(c => (char)c).ToArray());
         }
 
 
-        public async Task StartStreaming(string DeviceName, CancellationTokenSourceWithId CancelOperation)
+
+        public async Task StartStreaming(int MonitorIndex, CancellationTokenSourceWithId CancelOperation)
         {
 
 
-            
+
             IntPtr data;
             int width, height, pitch;
             int buffer_size;
 
-           
-
-            // Inizializza il duplicatore sul primo monitor/output
-            if (DesktopDuplicator.InitializeDuplicator(0, 0) != 0)
+            if (DesktopDuplicator.InitializeDuplicator(0, MonitorIndex) != 0)
             {
                 Console.WriteLine("[ERROR] InitializeDuplicator failed");
                 return;
@@ -226,7 +291,6 @@ namespace Resistenza.Common.Packets.Remote_Desktop
             try
             {
 
-                Task SendTask = Task.CompletedTask;
 
                 while (true)
                 {
@@ -239,22 +303,23 @@ namespace Resistenza.Common.Packets.Remote_Desktop
                         CancelOperation.Token.ThrowIfCancellationRequested();
                     }
 
-                    
+
 
                     // Ottieni frame
                     if (DesktopDuplicator.GetFrame(out data, out width, out height, out pitch) == 0)
                     {
                         // Disegna cursore sul buffer
-                        DesktopDuplicator.CursorHelper.DrawCursor(data, width, height, pitch);
+                       DesktopDuplicator.CursorHelper.DrawCursor(data, width, height, pitch);
+                       
 
                         // Copia il buffer in un array gestito
                         buffer_size = height * pitch;
                         byte[] rawBuffer = new byte[buffer_size];
+
                         Marshal.Copy(data, rawBuffer, 0, buffer_size);
 
                         DesktopDuplicator.ReleaseFrame();
 
-                        // Comprimi con GZip
                         byte[] compressedBuffer;
                         using (MemoryStream ms = new MemoryStream())
                         {
@@ -267,19 +332,20 @@ namespace Resistenza.Common.Packets.Remote_Desktop
 
                         var response = new DesktopFrameResponse
                         {
-                            ScreenCapture = compressedBuffer,
+                            ScreenCapture =compressedBuffer,
                             Width = width,
                             Height = height,
                             Pitch = pitch
-                         
+
                         };
 
-                        await SendTask;
-                        SendTask = _ServerStream.SendPacketAsync(response);
-                        
+                      
+                        await _ServerStream.SendPacketAsync(response);
+                        await Task.Delay(5);
+
                     }
 
-                    
+
                 }
             }
             catch (OperationCanceledException)
@@ -298,39 +364,8 @@ namespace Resistenza.Common.Packets.Remote_Desktop
 
         }
 
-        unsafe
-public static void SaveFrameAsJpeg(IntPtr buffer, int width, int height, int pitch, string filePath)
-        {
-            // Crea bitmap vuota con PixelFormat corretto
-            using (Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb))
-            {
-                // Blocca i dati della bitmap
-                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, bmp.PixelFormat);
-                byte* destPtr = (byte*)bmpData.Scan0;
 
-                for (int y = 0; y < height; y++)
-                {
-                    byte* srcRow = (byte*)buffer + y * pitch;
-                    byte* destRow = destPtr + y * bmpData.Stride;
-                    for (int x = 0; x < width; x++)
-                    {
-                        destRow[0] = srcRow[0]; // B
-                        destRow[1] = srcRow[1]; // G
-                        destRow[2] = srcRow[2]; // R
-                        destRow[3] = srcRow[3]; // A
-                        srcRow += 4;
-                        destRow += 4;
-                    }
-                }
-
-                bmp.UnlockBits(bmpData);
-
-                // Salva come JPEG
-                bmp.Save(filePath, ImageFormat.Jpeg);
-            }
-        }
-
-
+       
 
 
 
@@ -338,8 +373,6 @@ public static void SaveFrameAsJpeg(IntPtr buffer, int width, int height, int pit
 
     public class MonitorDeviceInfo
     {
-        public string Name { get; set; }
-        public string FriendlyName { get; set; }
         public int ScreenHeight { get; set; }
         public int ScreenWidth { get; set; }
         public bool IsMainMonitor { get; set; }

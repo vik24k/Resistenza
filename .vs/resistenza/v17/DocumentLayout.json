@@ -3,32 +3,52 @@
   "WorkspaceRootPath": "C:\\Users\\24\\Desktop\\Resistenza\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.common\\packets\\remote desktop\\desktopbroadcast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|solutionrelative:resistenza.common\\packets\\remote desktop\\desktopbroadcast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.server\\forms\\fullscreendesktop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|solutionrelative:resistenza.server\\forms\\fullscreendesktop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.server\\forms\\frmremotedesktop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|solutionrelative:resistenza.server\\forms\\frmremotedesktop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.common\\packets\\remote desktop\\desktopstartrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|solutionrelative:resistenza.common\\packets\\remote desktop\\desktopstartrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.server\\forms\\fullscreendesktop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|solutionrelative:resistenza.server\\forms\\fullscreendesktop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|C:\\Users\\24\\Desktop\\Resistenza\\resistenza.server\\forms\\frmactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|solutionrelative:resistenza.server\\forms\\frmactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|C:\\Users\\24\\Desktop\\Resistenza\\resistenza.server\\forms\\frmremotedesktop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|solutionrelative:resistenza.server\\forms\\frmremotedesktop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6C7CA50A-984C-4006-A9CA-638958DF218E}|Resistenza.Client\\Resistenza.Client.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.client\\networking\\clientsocket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C7CA50A-984C-4006-A9CA-638958DF218E}|Resistenza.Client\\Resistenza.Client.csproj|solutionrelative:resistenza.client\\networking\\clientsocket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.common\\packets\\remote desktop\\desktopstartrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|solutionrelative:resistenza.common\\packets\\remote desktop\\desktopstartrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.server\\forms\\fullscreendesktop.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|solutionrelative:resistenza.server\\forms\\fullscreendesktop.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.server\\properties\\resources.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}",
+      "RelativeMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|solutionrelative:resistenza.server\\properties\\resources.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.common\\packets\\remote desktop\\desktopbroadcast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|solutionrelative:resistenza.common\\packets\\remote desktop\\desktopbroadcast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.common\\packets\\remote desktop\\desktopframeresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|solutionrelative:resistenza.common\\packets\\remote desktop\\desktopframeresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.common\\networking\\securestream.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E2D96B3-E981-4DDD-B416-2E15B4F816BE}|Resistenza.Common\\Resistenza.Common.csproj|solutionrelative:resistenza.common\\networking\\securestream.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2A9D74B-6088-4F8D-9247-3A528D065919}|NativeDesktopDuplication\\NativeDesktopDuplication.vcxproj|C:\\Users\\24\\Desktop\\Resistenza\\NativeDesktopDuplication\\Duplicator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F2A9D74B-6088-4F8D-9247-3A528D065919}|NativeDesktopDuplication\\NativeDesktopDuplication.vcxproj|solutionrelative:NativeDesktopDuplication\\Duplicator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C7CA50A-984C-4006-A9CA-638958DF218E}|Resistenza.Client\\Resistenza.Client.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.client\\networking\\clientsocket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C7CA50A-984C-4006-A9CA-638958DF218E}|Resistenza.Client\\Resistenza.Client.csproj|solutionrelative:resistenza.client\\networking\\clientsocket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{11D9E90A-2B32-4086-8D33-59883007CF73}|Resistenza.Server\\Resistenza.Server.csproj|c:\\users\\24\\desktop\\resistenza\\resistenza.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -46,28 +66,78 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Program.cs",
-              "RelativeDocumentMoniker": "Resistenza.Server\\Program.cs",
-              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Program.cs",
-              "RelativeToolTip": "Resistenza.Server\\Program.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAswB0AAAABAAAA",
+              "DocumentIndex": 6,
+              "Title": "FullScreenDesktop.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FullScreenDesktop.Designer.cs",
+              "RelativeDocumentMoniker": "Resistenza.Server\\Forms\\FullScreenDesktop.Designer.cs",
+              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FullScreenDesktop.Designer.cs",
+              "RelativeToolTip": "Resistenza.Server\\Forms\\FullScreenDesktop.Designer.cs",
+              "ViewState": "AQIAACAAAAAAAAAAAAAjwDUAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T14:45:51.733Z"
+              "WhenOpened": "2025-09-04T09:29:29.742Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DesktopBroadcast.cs",
-              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Packets\\Remote Desktop\\DesktopBroadcast.cs",
-              "RelativeDocumentMoniker": "Resistenza.Common\\Packets\\Remote Desktop\\DesktopBroadcast.cs",
-              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Packets\\Remote Desktop\\DesktopBroadcast.cs",
-              "RelativeToolTip": "Resistenza.Common\\Packets\\Remote Desktop\\DesktopBroadcast.cs",
-              "ViewState": "AQIAAAABAAAAAAAAAAAcwAcBAAAdAAAA",
+              "Title": "FullScreenDesktop.cs",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FullScreenDesktop.cs",
+              "RelativeDocumentMoniker": "Resistenza.Server\\Forms\\FullScreenDesktop.cs",
+              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FullScreenDesktop.cs",
+              "RelativeToolTip": "Resistenza.Server\\Forms\\FullScreenDesktop.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAB8AAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T11:56:15.822Z",
+              "WhenOpened": "2025-09-04T08:59:40.659Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FrmRemoteDesktop.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FrmRemoteDesktop.cs",
+              "RelativeDocumentMoniker": "Resistenza.Server\\Forms\\FrmRemoteDesktop.cs",
+              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FrmRemoteDesktop.cs [Design]",
+              "RelativeToolTip": "Resistenza.Server\\Forms\\FrmRemoteDesktop.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-02T12:15:17.005Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DesktopStartRequest.cs",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Packets\\Remote Desktop\\DesktopStartRequest.cs",
+              "RelativeDocumentMoniker": "Resistenza.Common\\Packets\\Remote Desktop\\DesktopStartRequest.cs",
+              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Packets\\Remote Desktop\\DesktopStartRequest.cs",
+              "RelativeToolTip": "Resistenza.Common\\Packets\\Remote Desktop\\DesktopStartRequest.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAADwvy8AAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-02T14:33:32.378Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FrmActions.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FrmActions.cs",
+              "RelativeDocumentMoniker": "Resistenza.Server\\Forms\\FrmActions.cs",
+              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FrmActions.cs [Design]",
+              "RelativeToolTip": "Resistenza.Server\\Forms\\FrmActions.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-03T09:33:23.206Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FullScreenDesktop.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FullScreenDesktop.cs",
+              "RelativeDocumentMoniker": "Resistenza.Server\\Forms\\FullScreenDesktop.cs",
+              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FullScreenDesktop.cs [Design]",
+              "RelativeToolTip": "Resistenza.Server\\Forms\\FullScreenDesktop.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T09:30:01.766Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
@@ -77,26 +147,39 @@
               "RelativeDocumentMoniker": "Resistenza.Server\\Forms\\FrmRemoteDesktop.cs",
               "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FrmRemoteDesktop.cs",
               "RelativeToolTip": "Resistenza.Server\\Forms\\FrmRemoteDesktop.cs",
-              "ViewState": "AQIAAHkAAAAAAAAAAAAAAL0AAABzAAAA",
+              "ViewState": "AQIAAHoBAAAAAAAAAAAiwIgBAABAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-02T12:15:18.519Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DesktopStartRequest.cs",
-              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Packets\\Remote Desktop\\DesktopStartRequest.cs",
-              "RelativeDocumentMoniker": "Resistenza.Common\\Packets\\Remote Desktop\\DesktopStartRequest.cs",
-              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Packets\\Remote Desktop\\DesktopStartRequest.cs",
-              "RelativeToolTip": "Resistenza.Common\\Packets\\Remote Desktop\\DesktopStartRequest.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB0AAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T14:33:32.378Z"
+              "DocumentIndex": 7,
+              "Title": "Resources.resx",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Properties\\Resources.resx",
+              "RelativeDocumentMoniker": "Resistenza.Server\\Properties\\Resources.resx",
+              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Properties\\Resources.resx",
+              "RelativeToolTip": "Resistenza.Server\\Properties\\Resources.resx",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2025-09-04T10:12:28.408Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
+              "Title": "DesktopBroadcast.cs",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Packets\\Remote Desktop\\DesktopBroadcast.cs",
+              "RelativeDocumentMoniker": "Resistenza.Common\\Packets\\Remote Desktop\\DesktopBroadcast.cs",
+              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Packets\\Remote Desktop\\DesktopBroadcast.cs",
+              "RelativeToolTip": "Resistenza.Common\\Packets\\Remote Desktop\\DesktopBroadcast.cs",
+              "ViewState": "AQIAADEBAAAAAAAAAAAAADwBAABBAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-02T11:56:15.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "DesktopFrameResponse.cs",
               "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Packets\\Remote Desktop\\DesktopFrameResponse.cs",
               "RelativeDocumentMoniker": "Resistenza.Common\\Packets\\Remote Desktop\\DesktopFrameResponse.cs",
@@ -104,11 +187,12 @@
               "RelativeToolTip": "Resistenza.Common\\Packets\\Remote Desktop\\DesktopFrameResponse.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T14:33:28.985Z"
+              "WhenOpened": "2025-09-02T14:33:28.985Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "ClientSocket.cs",
               "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Client\\Networking\\ClientSocket.cs",
               "RelativeDocumentMoniker": "Resistenza.Client\\Networking\\ClientSocket.cs",
@@ -116,30 +200,34 @@
               "RelativeToolTip": "Resistenza.Client\\Networking\\ClientSocket.cs",
               "ViewState": "AQIAAA4AAAAAAAAAAAD4vyIAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T14:33:06.657Z"
+              "WhenOpened": "2025-09-02T14:33:06.657Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FrmRemoteDesktop.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FrmRemoteDesktop.cs",
-              "RelativeDocumentMoniker": "Resistenza.Server\\Forms\\FrmRemoteDesktop.cs",
-              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Forms\\FrmRemoteDesktop.cs [Design]",
-              "RelativeToolTip": "Resistenza.Server\\Forms\\FrmRemoteDesktop.cs [Design]",
+              "DocumentIndex": 12,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Program.cs",
+              "RelativeDocumentMoniker": "Resistenza.Server\\Program.cs",
+              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Server\\Program.cs",
+              "RelativeToolTip": "Resistenza.Server\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB0AAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T12:15:17.005Z"
+              "WhenOpened": "2025-09-02T14:45:51.733Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "SecureStream.cs",
-              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Networking\\SecureStream.cs",
-              "RelativeDocumentMoniker": "Resistenza.Common\\Networking\\SecureStream.cs",
-              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\Resistenza.Common\\Networking\\SecureStream.cs",
-              "RelativeToolTip": "Resistenza.Common\\Networking\\SecureStream.cs",
-              "ViewState": "AQIAAHoAAAAAAAAAAAAcwI8AAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T12:05:02.52Z"
+              "DocumentIndex": 10,
+              "Title": "Duplicator.cpp",
+              "DocumentMoniker": "C:\\Users\\24\\Desktop\\Resistenza\\NativeDesktopDuplication\\Duplicator.cpp",
+              "RelativeDocumentMoniker": "NativeDesktopDuplication\\Duplicator.cpp",
+              "ToolTip": "C:\\Users\\24\\Desktop\\Resistenza\\NativeDesktopDuplication\\Duplicator.cpp",
+              "RelativeToolTip": "NativeDesktopDuplication\\Duplicator.cpp",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAADcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-03T09:09:28.616Z",
+              "EditorCaption": ""
             }
           ]
         }

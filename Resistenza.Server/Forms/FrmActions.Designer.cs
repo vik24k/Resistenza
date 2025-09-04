@@ -69,9 +69,8 @@
             MenuBackgroundPanel.Controls.Add(SurveillanceBtn);
             MenuBackgroundPanel.Controls.Add(TitlePanel);
             MenuBackgroundPanel.Location = new Point(0, 0);
-            MenuBackgroundPanel.Margin = new Padding(3, 4, 3, 4);
             MenuBackgroundPanel.Name = "MenuBackgroundPanel";
-            MenuBackgroundPanel.Size = new Size(286, 933);
+            MenuBackgroundPanel.Size = new Size(250, 700);
             MenuBackgroundPanel.TabIndex = 2;
             // 
             // SystemSubpanel
@@ -82,10 +81,9 @@
             SystemSubpanel.Controls.Add(RemoteShellBtn);
             SystemSubpanel.Controls.Add(SystemInfoFormBtn);
             SystemSubpanel.Dock = DockStyle.Top;
-            SystemSubpanel.Location = new Point(0, 452);
-            SystemSubpanel.Margin = new Padding(3, 4, 3, 4);
+            SystemSubpanel.Location = new Point(0, 338);
             SystemSubpanel.Name = "SystemSubpanel";
-            SystemSubpanel.Size = new Size(286, 220);
+            SystemSubpanel.Size = new Size(250, 165);
             SystemSubpanel.TabIndex = 7;
             SystemSubpanel.Visible = false;
             // 
@@ -95,11 +93,10 @@
             TaskManagerBtn.FlatStyle = FlatStyle.Flat;
             TaskManagerBtn.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TaskManagerBtn.ForeColor = Color.WhiteSmoke;
-            TaskManagerBtn.Location = new Point(0, 168);
-            TaskManagerBtn.Margin = new Padding(3, 4, 3, 4);
+            TaskManagerBtn.Location = new Point(0, 126);
             TaskManagerBtn.Name = "TaskManagerBtn";
-            TaskManagerBtn.Padding = new Padding(40, 0, 0, 0);
-            TaskManagerBtn.Size = new Size(286, 48);
+            TaskManagerBtn.Padding = new Padding(35, 0, 0, 0);
+            TaskManagerBtn.Size = new Size(250, 36);
             TaskManagerBtn.TabIndex = 9;
             TaskManagerBtn.Text = "Task Manager";
             TaskManagerBtn.TextAlign = ContentAlignment.MiddleLeft;
@@ -112,11 +109,10 @@
             FilesManagerBtn.FlatStyle = FlatStyle.Flat;
             FilesManagerBtn.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FilesManagerBtn.ForeColor = Color.WhiteSmoke;
-            FilesManagerBtn.Location = new Point(-3, 112);
-            FilesManagerBtn.Margin = new Padding(3, 4, 3, 4);
+            FilesManagerBtn.Location = new Point(-3, 84);
             FilesManagerBtn.Name = "FilesManagerBtn";
-            FilesManagerBtn.Padding = new Padding(40, 0, 0, 0);
-            FilesManagerBtn.Size = new Size(286, 48);
+            FilesManagerBtn.Padding = new Padding(35, 0, 0, 0);
+            FilesManagerBtn.Size = new Size(250, 36);
             FilesManagerBtn.TabIndex = 8;
             FilesManagerBtn.Text = "Files Manager";
             FilesManagerBtn.TextAlign = ContentAlignment.MiddleLeft;
@@ -129,11 +125,10 @@
             RemoteShellBtn.FlatStyle = FlatStyle.Flat;
             RemoteShellBtn.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             RemoteShellBtn.ForeColor = Color.WhiteSmoke;
-            RemoteShellBtn.Location = new Point(0, 56);
-            RemoteShellBtn.Margin = new Padding(3, 4, 3, 4);
+            RemoteShellBtn.Location = new Point(0, 42);
             RemoteShellBtn.Name = "RemoteShellBtn";
-            RemoteShellBtn.Padding = new Padding(40, 0, 0, 0);
-            RemoteShellBtn.Size = new Size(286, 48);
+            RemoteShellBtn.Padding = new Padding(35, 0, 0, 0);
+            RemoteShellBtn.Size = new Size(250, 36);
             RemoteShellBtn.TabIndex = 7;
             RemoteShellBtn.Text = "Remote Shell";
             RemoteShellBtn.TextAlign = ContentAlignment.MiddleLeft;
@@ -147,10 +142,9 @@
             SystemInfoFormBtn.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             SystemInfoFormBtn.ForeColor = Color.WhiteSmoke;
             SystemInfoFormBtn.Location = new Point(-3, 0);
-            SystemInfoFormBtn.Margin = new Padding(3, 4, 3, 4);
             SystemInfoFormBtn.Name = "SystemInfoFormBtn";
-            SystemInfoFormBtn.Padding = new Padding(40, 0, 0, 0);
-            SystemInfoFormBtn.Size = new Size(286, 48);
+            SystemInfoFormBtn.Padding = new Padding(35, 0, 0, 0);
+            SystemInfoFormBtn.Size = new Size(250, 36);
             SystemInfoFormBtn.TabIndex = 6;
             SystemInfoFormBtn.Text = "System Information";
             SystemInfoFormBtn.TextAlign = ContentAlignment.MiddleLeft;
@@ -164,11 +158,10 @@
             SystemBtn.FlatStyle = FlatStyle.Flat;
             SystemBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             SystemBtn.ForeColor = Color.WhiteSmoke;
-            SystemBtn.Location = new Point(0, 385);
-            SystemBtn.Margin = new Padding(3, 4, 3, 4);
+            SystemBtn.Location = new Point(0, 288);
             SystemBtn.Name = "SystemBtn";
-            SystemBtn.Padding = new Padding(11, 0, 0, 0);
-            SystemBtn.Size = new Size(286, 67);
+            SystemBtn.Padding = new Padding(10, 0, 0, 0);
+            SystemBtn.Size = new Size(250, 50);
             SystemBtn.TabIndex = 6;
             SystemBtn.Tag = "System";
             SystemBtn.Text = "System";
@@ -183,10 +176,9 @@
             SurveillanceSubpanel.Controls.Add(WebcamBtn);
             SurveillanceSubpanel.Controls.Add(MicrophoneBtn);
             SurveillanceSubpanel.Dock = DockStyle.Top;
-            SurveillanceSubpanel.Location = new Point(0, 226);
-            SurveillanceSubpanel.Margin = new Padding(3, 4, 3, 4);
+            SurveillanceSubpanel.Location = new Point(0, 169);
             SurveillanceSubpanel.Name = "SurveillanceSubpanel";
-            SurveillanceSubpanel.Size = new Size(286, 159);
+            SurveillanceSubpanel.Size = new Size(250, 119);
             SurveillanceSubpanel.TabIndex = 5;
             SurveillanceSubpanel.Visible = false;
             // 
@@ -196,11 +188,10 @@
             RemoteDesktopBtn.FlatStyle = FlatStyle.Flat;
             RemoteDesktopBtn.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             RemoteDesktopBtn.ForeColor = Color.WhiteSmoke;
-            RemoteDesktopBtn.Location = new Point(-3, 112);
-            RemoteDesktopBtn.Margin = new Padding(3, 4, 3, 4);
+            RemoteDesktopBtn.Location = new Point(-3, 84);
             RemoteDesktopBtn.Name = "RemoteDesktopBtn";
-            RemoteDesktopBtn.Padding = new Padding(40, 0, 0, 0);
-            RemoteDesktopBtn.Size = new Size(286, 48);
+            RemoteDesktopBtn.Padding = new Padding(35, 0, 0, 0);
+            RemoteDesktopBtn.Size = new Size(250, 36);
             RemoteDesktopBtn.TabIndex = 8;
             RemoteDesktopBtn.Text = "Remote Desktop";
             RemoteDesktopBtn.TextAlign = ContentAlignment.MiddleLeft;
@@ -213,11 +204,10 @@
             WebcamBtn.FlatStyle = FlatStyle.Flat;
             WebcamBtn.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WebcamBtn.ForeColor = Color.WhiteSmoke;
-            WebcamBtn.Location = new Point(0, 56);
-            WebcamBtn.Margin = new Padding(3, 4, 3, 4);
+            WebcamBtn.Location = new Point(0, 42);
             WebcamBtn.Name = "WebcamBtn";
-            WebcamBtn.Padding = new Padding(40, 0, 0, 0);
-            WebcamBtn.Size = new Size(286, 48);
+            WebcamBtn.Padding = new Padding(35, 0, 0, 0);
+            WebcamBtn.Size = new Size(250, 36);
             WebcamBtn.TabIndex = 7;
             WebcamBtn.Text = "Webcam";
             WebcamBtn.TextAlign = ContentAlignment.MiddleLeft;
@@ -231,10 +221,9 @@
             MicrophoneBtn.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MicrophoneBtn.ForeColor = Color.WhiteSmoke;
             MicrophoneBtn.Location = new Point(-3, 0);
-            MicrophoneBtn.Margin = new Padding(3, 4, 3, 4);
             MicrophoneBtn.Name = "MicrophoneBtn";
-            MicrophoneBtn.Padding = new Padding(40, 0, 0, 0);
-            MicrophoneBtn.Size = new Size(286, 48);
+            MicrophoneBtn.Padding = new Padding(35, 0, 0, 0);
+            MicrophoneBtn.Size = new Size(250, 36);
             MicrophoneBtn.TabIndex = 6;
             MicrophoneBtn.Text = "Microphone";
             MicrophoneBtn.TextAlign = ContentAlignment.MiddleLeft;
@@ -248,11 +237,10 @@
             SurveillanceBtn.FlatStyle = FlatStyle.Flat;
             SurveillanceBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             SurveillanceBtn.ForeColor = Color.WhiteSmoke;
-            SurveillanceBtn.Location = new Point(0, 159);
-            SurveillanceBtn.Margin = new Padding(3, 4, 3, 4);
+            SurveillanceBtn.Location = new Point(0, 119);
             SurveillanceBtn.Name = "SurveillanceBtn";
-            SurveillanceBtn.Padding = new Padding(11, 0, 0, 0);
-            SurveillanceBtn.Size = new Size(286, 67);
+            SurveillanceBtn.Padding = new Padding(10, 0, 0, 0);
+            SurveillanceBtn.Size = new Size(250, 50);
             SurveillanceBtn.TabIndex = 4;
             SurveillanceBtn.Text = "Surveillance";
             SurveillanceBtn.TextAlign = ContentAlignment.MiddleLeft;
@@ -266,19 +254,17 @@
             TitlePanel.Controls.Add(MenuLabel);
             TitlePanel.Dock = DockStyle.Top;
             TitlePanel.Location = new Point(0, 0);
-            TitlePanel.Margin = new Padding(3, 4, 3, 4);
             TitlePanel.Name = "TitlePanel";
-            TitlePanel.Size = new Size(286, 159);
+            TitlePanel.Size = new Size(250, 119);
             TitlePanel.TabIndex = 2;
             // 
             // LogoPicturebox
             // 
             LogoPicturebox.BackColor = Color.Transparent;
             LogoPicturebox.Image = Properties.Resources.resistenza_logo_transparent;
-            LogoPicturebox.Location = new Point(14, 29);
-            LogoPicturebox.Margin = new Padding(3, 4, 3, 4);
+            LogoPicturebox.Location = new Point(12, 22);
             LogoPicturebox.Name = "LogoPicturebox";
-            LogoPicturebox.Size = new Size(90, 91);
+            LogoPicturebox.Size = new Size(79, 68);
             LogoPicturebox.TabIndex = 3;
             LogoPicturebox.TabStop = false;
             // 
@@ -286,9 +272,9 @@
             // 
             ClientAddressLabel.AutoSize = true;
             ClientAddressLabel.ForeColor = Color.White;
-            ClientAddressLabel.Location = new Point(138, 75);
+            ClientAddressLabel.Location = new Point(121, 56);
             ClientAddressLabel.Name = "ClientAddressLabel";
-            ClientAddressLabel.Size = new Size(0, 20);
+            ClientAddressLabel.Size = new Size(0, 15);
             ClientAddressLabel.TabIndex = 2;
             // 
             // MenuLabel
@@ -297,9 +283,9 @@
             MenuLabel.AutoSize = true;
             MenuLabel.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             MenuLabel.ForeColor = Color.White;
-            MenuLabel.Location = new Point(111, 69);
+            MenuLabel.Location = new Point(97, 52);
             MenuLabel.Name = "MenuLabel";
-            MenuLabel.Size = new Size(116, 32);
+            MenuLabel.Size = new Size(92, 25);
             MenuLabel.TabIndex = 0;
             MenuLabel.Text = "Manager";
             // 
@@ -308,10 +294,9 @@
             topPanel.BackColor = Color.FromArgb(8, 5, 12);
             topPanel.Controls.Add(CloseIcon);
             topPanel.ForeColor = Color.Black;
-            topPanel.Location = new Point(286, 0);
-            topPanel.Margin = new Padding(3, 4, 3, 4);
+            topPanel.Location = new Point(250, 0);
             topPanel.Name = "topPanel";
-            topPanel.Size = new Size(1257, 52);
+            topPanel.Size = new Size(1100, 39);
             topPanel.TabIndex = 0;
             topPanel.MouseDown += topPanel_MouseDown;
             // 
@@ -319,19 +304,17 @@
             // 
             CloseIcon.BackColor = Color.FromArgb(11, 7, 17);
             CloseIcon.Image = (Image)resources.GetObject("CloseIcon.Image");
-            CloseIcon.Location = new Point(1213, 12);
-            CloseIcon.Margin = new Padding(3, 4, 3, 4);
+            CloseIcon.Location = new Point(1061, 9);
             CloseIcon.Name = "CloseIcon";
-            CloseIcon.Size = new Size(31, 40);
+            CloseIcon.Size = new Size(27, 30);
             CloseIcon.TabIndex = 3;
             CloseIcon.TabStop = false;
             // 
             // ActionsPanel
             // 
-            ActionsPanel.Location = new Point(286, 52);
-            ActionsPanel.Margin = new Padding(3, 4, 3, 4);
+            ActionsPanel.Location = new Point(250, 39);
             ActionsPanel.Name = "ActionsPanel";
-            ActionsPanel.Size = new Size(1257, 880);
+            ActionsPanel.Size = new Size(1100, 660);
             ActionsPanel.TabIndex = 3;
             // 
             // BackgroundPanel
@@ -341,22 +324,22 @@
             BackgroundPanel.Controls.Add(topPanel);
             BackgroundPanel.Dock = DockStyle.Fill;
             BackgroundPanel.Location = new Point(0, 0);
-            BackgroundPanel.Margin = new Padding(3, 4, 3, 4);
             BackgroundPanel.Name = "BackgroundPanel";
-            BackgroundPanel.Size = new Size(1543, 933);
+            BackgroundPanel.Size = new Size(1350, 700);
             BackgroundPanel.TabIndex = 4;
             // 
             // FrmActions
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             BackColor = Color.White;
-            ClientSize = new Size(1543, 933);
+            ClientSize = new Size(1350, 700);
             Controls.Add(BackgroundPanel);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FrmActions";
             Load += FrmActions_Load;
             MenuBackgroundPanel.ResumeLayout(false);

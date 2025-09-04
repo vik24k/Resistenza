@@ -193,11 +193,20 @@
   <data name="microphone_sensitivity_muted" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\microphone-sensitivity-muted.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="mouse_clicker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\mouse-clicker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mouse_clicking " type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mouse_clicking .bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="networkunit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\networkunit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="new_folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\new_folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="no_mouse_clicker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\mouse-clicker2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="processor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\processor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

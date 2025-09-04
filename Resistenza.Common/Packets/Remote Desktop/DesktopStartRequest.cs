@@ -14,7 +14,7 @@ namespace Resistenza.Common.Packets.Remote_Desktop
         public string Type { get; set; }
         public bool ListDevices { get; set; }
         public bool StartTransmit { get; set; }
-        public string NameTargetDisplay { get; set; }
+        public int MonitorIndex { get; set; }
         public DesktopStartRequest()
         {
             Type = this.GetType().ToString();
@@ -24,35 +24,28 @@ namespace Resistenza.Common.Packets.Remote_Desktop
         {
             if (ListDevices)
             {
-              
-                var DevicesPacket = new DesktopListDisplaysResponse();
-                DevicesPacket.Devices = DesktopBroadcast.GetDevicesInfo();
-                await ServerStream.SendPacketAsync(DevicesPacket); //ricevuto
+
+                var DevicesPacket = new DesktopListDisplaysResponse()
+                {
+                    Devices = DesktopBroadcast.GetDevicesInfo(),
+                };
+               
+                await ServerStream.SendPacketAsync(DevicesPacket); 
 
 
                 return;
             }
 
             if (StartTransmit)
-            {
-
-                
+            {        
                 try
                 {
-                    //provo a reinviare lo stesso pacchetto per vedere se il server lo riceve
-                    var DevicesPacket = new DesktopListDisplaysResponse();
-                    DevicesPacket.Devices = DesktopBroadcast.GetDevicesInfo();
-                    await ServerStream.SendPacketAsync(DevicesPacket);
-
-
+               
                     Console.WriteLine("[DEBUG] Creating DesktopBroadcast");
                     DesktopBroadcast Streamer = new DesktopBroadcast(ServerStream);
                     Console.WriteLine("[DEBUG] DesktopBroadcast created");
 
-                    await Streamer.StartStreaming(NameTargetDisplay, CancelOperation);
-
-                    //await Streamer.StartStreaming(NameTargetDisplay, CancelOperation);
-
+                    await Streamer.StartStreaming(MonitorIndex, CancelOperation);
                 }
                 catch (Exception ex)
                 {
@@ -63,11 +56,7 @@ namespace Resistenza.Common.Packets.Remote_Desktop
                     throw;
                     
                 }
-
-
             }
-
-
         }
     }
 }

