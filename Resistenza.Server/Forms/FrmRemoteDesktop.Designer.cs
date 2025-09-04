@@ -51,8 +51,7 @@
             DesktopPictureBox.TabStop = false;
             DesktopPictureBox.Click += DesktopPictureBox_Click;
             DesktopPictureBox.DoubleClick += DesktopPictureBox_DoubleClick;
-            DesktopPictureBox.MouseEnter += DesktopPictureBox_MouseEnter;
-            DesktopPictureBox.MouseLeave += DesktopPictureBox_MouseLeave;
+           
             // 
             // DisplaysBox
             // 

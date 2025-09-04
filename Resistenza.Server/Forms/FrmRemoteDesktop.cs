@@ -28,6 +28,7 @@ using Point = System.Drawing.Point;
 using System.IO.Compression;
 using Org.BouncyCastle.Asn1.Cms;
 using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
 
 
 
@@ -66,35 +67,11 @@ namespace Resistenza.Server.Forms
             _IsFullScreen = false;
             _fpsCounterLock = new object();
 
-            _MouseHook = IntPtr.Zero;
-            _KeyboardHook = IntPtr.Zero;
-
-            _MouseEventHandler = MouseEventCallback;
+         
 
             //_DevicesAvailable = new Dictionary<string, MonitorDeviceInfo>();
         }
-        private HookProc _MouseEventHandler;
-        private delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr SetWindowsHookExA(int idHook, HookProc lpfn, IntPtr hMod, uint dwThreadId);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr GetModuleHandle(string lpModuleName);
-        [DllImport("kernel32.dll")]
-        private static extern uint GetCurrentThreadId();
-
-        private static int WH_MOUSE = 7;
-
-        private IntPtr _MouseHook;
-        private IntPtr _KeyboardHook;
+        
 
         private void _Client_IncomingPacket(object PacketReceived)
         {
@@ -292,88 +269,7 @@ namespace Resistenza.Server.Forms
             }
         }
 
-        private MonitorDeviceInfo GetInfoOfSelectedMonitor()
-        {
-            string SelectedMonitorName = (DisplaysBox.SelectedItem as string).Substring(0, (DisplaysBox.SelectedItem as string).IndexOf("(") - 1); //hack, da fixare, crasha se friendly_name contiene una parentesi
-            MonitorDeviceInfo AssociatedInfo;
-            _DevicesAvailable.TryGetValue(SelectedMonitorName, out AssociatedInfo);
-            return AssociatedInfo;
-
-        }
-
-        private IntPtr MouseEventCallback(int nCode, IntPtr wParam, IntPtr lParam)
-        {
-
-            //if (nCode != 0)//viene inviato dal processo corrente
-            //{
-            //    MouseMessages Message = (MouseMessages)wParam;
-
-            //    switch (Message)
-            //    {
-            //        case MouseMessages.WM_RBUTTONDOWN:
-            //        case MouseMessages.WM_LBUTTONDOWN:
-
-            //            Point ScreenPos = Cursor.Position;
-            //            Point controlPos = DesktopPictureBox.PointToClient(ScreenPos);
-
-            //            MonitorDeviceInfo info = GetInfoOfSelectedMonitor();
-            //            int ClientScreenWidth = info.ScreenWidth;
-            //            int ClientScreenHeight = info.ScreenHeight;
-
-            //            int ClientX = (controlPos.X * ClientScreenWidth) / DesktopPictureBox.Width;
-            //            int ClientY = (controlPos.Y * ClientScreenHeight) / DesktopPictureBox.Height;
-
-            //            DesktopMouseActionRequest MouseEventRequest = new DesktopMouseActionRequest()
-            //            {
-            //                MousePosX = ClientX,
-            //                MousePosY = ClientY,
-            //                MouseMessage = Message,
-            //            };
-
-            //            Task sendT = _Client.CustomStream.SendPacketAsync(MouseEventRequest);
-            //            sendT.Wait();
-            //            break;
-
-            //    }
-
-            //}
-
-            return IntPtr.Zero;
-        }
-
-        private void EnableMouseHook()
-        {
-
-            _MouseHook = SetWindowsHookExA(WH_MOUSE, _MouseEventHandler, IntPtr.Zero, GetCurrentThreadId());
-
-
-        }
-        private void EnableKeyboardHook()
-        {
-
-        }
-
-        private void DesktopPictureBox_MouseEnter(object sender, EventArgs e)
-        {
-            if (_IsInteractionActive)
-            {
-                EnableMouseHook();
-                EnableKeyboardHook();
-            }
-
-        }
-
-        private void DesktopPictureBox_MouseLeave(object sender, EventArgs e)
-        {
-            if (_IsInteractionActive)
-            {
-                UnhookWindowsHookEx(_MouseHook);
-                UnhookWindowsHookEx(_KeyboardHook);
-            }
-        }
-
-
-
+     
         private void DesktopPictureBox_Click(object sender, EventArgs e)
         {
 
@@ -390,7 +286,19 @@ namespace Resistenza.Server.Forms
 
         private void ActivateFulLScreen()
         {
-            _FullScreenDesktop = new FullScreenDesktop(_Client, DisplaysBox.SelectedItem.ToString());
+
+            var SelectedMonitorInfo = new MonitorDeviceInfo
+            {
+                MonitorName = DisplaysBox.SelectedItem.ToString(),
+
+            };
+
+            var match = Regex.Match(SelectedMonitorInfo.MonitorName, @"\((\d+)x(\d+)\)");   
+            SelectedMonitorInfo.ScreenWidth = int.Parse(match.Groups[1].Value);
+            SelectedMonitorInfo.ScreenHeight= int.Parse(match.Groups[2].Value);
+
+          
+            _FullScreenDesktop = new FullScreenDesktop(_Client, SelectedMonitorInfo) ;
             _IsFullScreen = true;
             _FullScreenDesktop.FormClosed += _FullScreenDesktop_FormClosed;
 
@@ -436,6 +344,9 @@ namespace Resistenza.Server.Forms
                 InteractionPictureBox.Image = Resistenza.Server.Properties.Resources.mouse_clicker;
                 _IsInteractionActive = false;
                 _FullScreenDesktop.StopInteractionMode();
+
+                GenericNotificationLabel.Text = "";
+                GenericNotificationLabel.Visible = false;
             }
             else
             {

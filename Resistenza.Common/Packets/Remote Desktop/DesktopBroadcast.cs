@@ -290,7 +290,7 @@ namespace Resistenza.Common.Packets.Remote_Desktop
 
             try
             {
-
+                Task sendPacketTask = Task.CompletedTask;
 
                 while (true)
                 {
@@ -339,9 +339,9 @@ namespace Resistenza.Common.Packets.Remote_Desktop
 
                         };
 
-                      
-                        await _ServerStream.SendPacketAsync(response);
-                        await Task.Delay(5);
+                        await sendPacketTask;
+                        sendPacketTask = _ServerStream.SendPacketAsync(response);
+                        
 
                     }
 
@@ -351,15 +351,10 @@ namespace Resistenza.Common.Packets.Remote_Desktop
             catch (OperationCanceledException)
             {
                 Console.WriteLine("[INFO] Streaming cancelled");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("[ERROR] Exception during streaming: " + ex);
-            }
-            finally
-            {
                 DesktopDuplicator.Shutdown();
+                CancelOperation.Token.ThrowIfCancellationRequested();
             }
+            
 
 
         }
@@ -376,6 +371,8 @@ namespace Resistenza.Common.Packets.Remote_Desktop
         public int ScreenHeight { get; set; }
         public int ScreenWidth { get; set; }
         public bool IsMainMonitor { get; set; }
+
+        public string MonitorName { get; set; }
 
     }
 
