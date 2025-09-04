@@ -8,7 +8,7 @@ namespace Resistenza.Client.Config
 {
     public static class ClientSettings
     {
-        public static readonly string Host = "127.0.0.1";
+        public static readonly string Host = "192.168.1.12";
         public static readonly int Port = 2424;
 
 

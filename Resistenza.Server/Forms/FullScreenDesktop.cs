@@ -108,12 +108,19 @@ namespace Resistenza.Server.Forms
 
                 switch (Message)
                 {
+                    case MouseMessages.WM_RBUTTONUP:
+                    case MouseMessages.WM_LBUTTONUP:
                     case MouseMessages.WM_RBUTTONDOWN:
                     case MouseMessages.WM_LBUTTONDOWN:
 
+                        //
+
+                        break;
+                    case MouseMessages.WM_MOUSEMOVE:
+
                         Point ScreenPos = Cursor.Position;
                         Point controlPos = FramePictureBox.PointToClient(ScreenPos);
-                       
+
                         int ClientScreenWidth = _MonitorInfo.ScreenWidth;
                         int ClientScreenHeight = _MonitorInfo.ScreenHeight;
 
@@ -130,6 +137,7 @@ namespace Resistenza.Server.Forms
                         Task sendT = _Client.CustomStream.SendPacketAsync(MouseEventRequest);
                         sendT.Wait();
                         break;
+
 
                 }
 

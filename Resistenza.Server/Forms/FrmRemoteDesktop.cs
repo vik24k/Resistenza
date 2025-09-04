@@ -312,15 +312,22 @@ namespace Resistenza.Server.Forms
             _FullScreenDesktop.Show();
         }
 
-        private void DeactivateFullScreen()
+        private void DeactivateFullScreen(bool CloseForm = false)
         {
-            _FullScreenDesktop?.Close();
+            
             InteractionPictureBox.Visible = false;
+            _IsFullScreen = false;
+            FullScreenBtn.Text = "Full screen: Off";
+
+            if (CloseForm)
+            {
+                _FullScreenDesktop?.Close(); // se viene chiamato dall'handler che gestisce la chiusura del form ovvero lo user ha cliccato la x allora si chiudera automaticamente, ma se viene chiuso tramite pulsante allora bisogna chiuderlo manualmente
+            }
         }
 
         private void _FullScreenDesktop_FormClosed(object? sender, FormClosedEventArgs e)
         {
-            _IsFullScreen = false;
+            DeactivateFullScreen();
         }
 
         private void FullScreenBtn_Click(object sender, EventArgs e)
@@ -332,7 +339,7 @@ namespace Resistenza.Server.Forms
             }
             else
             {
-                DeactivateFullScreen();
+                DeactivateFullScreen(true);
             }
         }
 

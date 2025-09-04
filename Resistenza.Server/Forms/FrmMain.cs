@@ -54,7 +54,7 @@ namespace Resistenza.Server
 
             clientsGrid.ColumnHeadersDefaultCellStyle.SelectionBackColor = clientsGrid.BackgroundColor;
 
-            Task.Run(async () => await ServerInstance.StartServerAsync());
+         
   
         }
 

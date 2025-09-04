@@ -59,25 +59,19 @@ namespace Resistenza.Common.Packets.Remote_Desktop
                 switch (MouseMessage)
                 {
                     case MouseMessages.WM_MOUSEMOVE:
-                        //SetCursorPos(MousePosX, MousePosY);
+                        SetCursorPos(MousePosX, MousePosY);
                         return;
                     default:
-
                         InputMouseData flag;
                         MouseInputToMouseData.TryGetValue(MouseMessage, out flag);
                         int integer_converted = (int)flag;
-
-                        SetCursorPos(MousePosX, MousePosY);
+                        
                         SendMouseInput(integer_converted);
 
                         return;
 
                 }
             });
-
-            
-
-
         }
 
         private static void SendMouseInput(int mouseEventFlags)
@@ -102,18 +96,23 @@ namespace Resistenza.Common.Packets.Remote_Desktop
         }
 
         private Dictionary<MouseMessages, InputMouseData> MouseInputToMouseData = new()
-        {
-            { MouseMessages.WM_LBUTTONDOWN, InputMouseData.MOUSEEVENTF_LEFTDOWN },
-            { MouseMessages.WM_RBUTTONDOWN, InputMouseData.MOUSEEVENTF_RIGHTDOWN }
-        };
+{
+    { MouseMessages.WM_LBUTTONDOWN, InputMouseData.MOUSEEVENTF_LEFTDOWN },
+    { MouseMessages.WM_LBUTTONUP, InputMouseData.MOUSEEVENTF_LEFTUP },
+    { MouseMessages.WM_RBUTTONDOWN, InputMouseData.MOUSEEVENTF_RIGHTDOWN },
+    { MouseMessages.WM_RBUTTONUP, InputMouseData.MOUSEEVENTF_RIGHTUP }
+};
 
         private enum InputMouseData
         {
             MOUSEEVENTF_LEFTDOWN = 0x0002,
+            MOUSEEVENTF_LEFTUP = 0x0004,
             MOUSEEVENTF_RIGHTDOWN = 0x0008,
-
+            MOUSEEVENTF_RIGHTUP = 0x0010
         }
     }
+
+    
 
     public enum MouseMessages
     {
